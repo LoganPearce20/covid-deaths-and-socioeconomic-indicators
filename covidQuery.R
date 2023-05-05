@@ -15,3 +15,10 @@ df_income <- df_income %>%
 
 df_marital_status <- df_marital_status %>%
   filter(YEAR == "2020")
+
+
+df_income1 <- df_income %>%
+  pivot_longer(cols = -DATE, names_to = "State", values_to = "Income")
+
+df_joined <- inner_join(df_covid_data, df_income1, by = "State") %>%
+  inner_join(df_marital_status, by = "State")
