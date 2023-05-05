@@ -14,8 +14,10 @@ df_income <- df_income %>%
   filter(DATE == "1/1/20")
 
 df_marital_status <- df_marital_status %>%
-  filter(YEAR == "2020")
+  filter(YEAR == "2020") 
 
+names(df_marital_status)[names(df_marital_status) == "STATE"] <- "State"
+  
 
 df_income1 <- df_income %>%
   pivot_longer(cols = -DATE, names_to = "State", values_to = "Income")
