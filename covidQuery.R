@@ -11,8 +11,7 @@ df_covid_data <- df_covid_data %>%
   select(Year, State, Condition.Group, Condition, Age.Group, COVID.19.Deaths, Number.of.Mentions, )
   
 df_income <- df_income %>%
-  filter(DATE == "2020-01-01")
+  filter(DATE == "1/1/20")
 
 df_marital_status <- df_marital_status %>%
-  filter(YEAR == "2020") %>%
-  select(-URL)
+  filter(YEAR == "2020")
