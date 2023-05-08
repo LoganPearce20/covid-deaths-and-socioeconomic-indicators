@@ -1,6 +1,8 @@
 library(tidyverse)
 library(dplyr)
 library(magrittr)
+library(ggplot2)
+library(shiny)
  
 df_covid_data <- read.csv("data/Conditions_Contributing_to_COVID-19_Deaths__by_State_and_Age__Provisional_2020-2023.csv")
 df_income <- read.csv("data/income_by_state.csv")
@@ -24,3 +26,4 @@ df_income1 <- df_income %>%
 
 df_joined <- inner_join(df_covid_data, df_income1, by = "State") %>%
   inner_join(df_marital_status, by = "State")
+
