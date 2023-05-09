@@ -19,7 +19,7 @@ shinyUI(fluidPage(
       selectizeInput("condition_group",
                      'Choose a Condition Group:',
                      choices = distinct(df_joined, df_joined$Condition.Group)),
-      selectizeInput("Condition",
+      selectizeInput("condition",
                      'Choose a Condition:',
                      choices = distinct(df_joined, df_joined$Condition)),
       selectizeInput("age_group",
