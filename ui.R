@@ -1,25 +1,44 @@
 library(shiny)
 library(ggplot2)
+library(shinythemes)
+
+df_joined <- read.csv("data/df_joined.csv")
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
-
+  theme = shinytheme("cyborg"),
     # Application title
-    titlePanel("Old Faithful Geyser Data"),
+    titlePanel("Effects of Socioeconomic Factors on Covid Related Deaths by State"),
 
-    # Sidebar with a slider input for number of bins
-    sidebarLayout(
-        sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
-        ),
+    # Sidebar with inputs
+  sidebarLayout(
+    sidebarPanel(
+      selectizeInput("state",
+                     'Choose a State:',
+                     choices = distinct(df_joined, df_joined$State)),
+      selectizeInput("condition_group",
+                     'Choose a Condition Group:',
+                     choices = distinct(df_joined, df_joined$Condition.Group)),
+      selectizeInput("Condition",
+                     'Choose a Condition:',
+                     choices = distinct(df_joined, df_joined$Condition)),
+      selectizeInput("age_group",
+                     'Choose an Age Group:',
+                     choices = distinct(df_joined, df_joined$Age.Group)),
+    ),
 
         # Show a plot of the generated distribution
         mainPanel(
-            plotOutput("distPlot")
+          fluidRow(
+            # Sidebar with a slider input for number of bins
+            tabsetPanel(
+              tabPanel("Introduction", htmlOutput("comment1")),
+              tabPanel("Covid Deaths by Income"),
+              tabPanel("Covid Deaths by Marriage Rate"),
+              tabPanel("Covid Deaths by Political Affiliation"),
+              tabPanel("Covid Deaths by Race"),
+              tabPanel("Covid Deaths by Age"),
+            )
         )
     )
-))
+)))
