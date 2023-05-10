@@ -37,17 +37,25 @@ shinyServer(function(input, output, session) {
     The results of this study could potentially provide valuable insights into the social determinants of health and how they influence the spread and impact of infectious diseases like COVID-19. 
     Additionally, the findings could inform public health policies aimed at mitigating the impact of such diseases on vulnerable populations in the future."
   })
-    output$distPlot <- renderPlot({
+  output$plot1 <- renderPlot({
+    num_states <- length(unique(df_joined$State))
+    text_angle <- ifelse(num_states >= 50, 0 , 90)
+    ggplot(df_joined, aes(x = State, y = COVID.19.Deaths)) +
+      geom_col() +
+      geom_text(aes(label =  State), position = position_dodge(width = 0.9), size = 4.1, fontface = "bold", angle = text_angle) +
+      labs(title = "Death by Income") +
+      plot_theme +
+      theme(axis.title.x = element_blank(),
+            axis.text.x = element_blank(),
+            axis.ticks.x = element_blank())
 
-        # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white',
-             xlab = 'Waiting time to next eruption (in mins)',
-             main = 'Histogram of waiting times')
-
-    })
-
+})
+  output$plot2 <- renderPlot({
+    ggplot(df_joined, aes(x = State, y = Income)) +
+      geom_col() +
+      labs(title = "Death by Income",
+           x = "Income",
+           y = "No.Of Deaths") +
+      plot_theme
+})
 })

@@ -33,7 +33,7 @@ shinyUI(fluidPage(
             # Sidebar with a slider input for number of bins
             tabsetPanel(
               tabPanel("Introduction", htmlOutput("comment1")),
-              tabPanel("Covid Deaths by Income"),
+              tabPanel("Covid Deaths by Income", plotOutput("plot1"), plotOutput("plot2")),
               tabPanel("Covid Deaths by Marriage Rate"),
               tabPanel("Covid Deaths by Political Affiliation"),
               tabPanel("Covid Deaths by Race"),
