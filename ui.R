@@ -3,6 +3,7 @@ library(ggplot2)
 library(shinythemes)
 
 df_joined <- read.csv("data/df_joined.csv")
+df_income <- read.csv("data/df_income.csv")
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
@@ -37,15 +38,17 @@ shinyUI(fluidPage(
             # Sidebar with a slider input for number of bins
             tabsetPanel(
               tabPanel("Introduction", htmlOutput("comment1")),
-              tabPanel("Covid Deaths by Income", plotOutput("plot1"), plotOutput("plot2")),
+              tabPanel("Covid Deaths by Income", 
+                       plotOutput("plot1"), 
+                       plotOutput("plot2"),
+                       plotOutput('plot_3')),
               tabPanel("Covid Deaths by Marriage Rate"),
               tabPanel("Covid Deaths by Political Affiliation", 
-                       column(8,plotOutput('plot_3', width = '1000px'))),
               tabPanel("Covid Deaths by Race",
                        column(8,plotOutput('plot_4', width = '1000px'))),
               tabPanel("Covid Deaths by Age"),
             )
         )
     )
-)))
+))))
 

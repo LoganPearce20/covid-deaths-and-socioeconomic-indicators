@@ -2,6 +2,15 @@ library(shiny)
 library(ggplot2)
 
 df_joined <- read.csv("data/df_joined.csv")
+df_income <- read.csv("data/df_income.csv")
+
+df_distinct_deaths <- df_joined %>%
+  distinct(State, total_deaths)
+
+df_distinct_conditions <- df_joined %>%
+  group_by(State, Condition) %>%
+  mutate(condition_deaths = sum(COVID.19.Deaths, na.rm = T)) %>%
+  distinct(State, Condition, condition_deaths)
 
 #Set plot theme
 plot_theme <- ggdark::dark_theme_gray(base_size = 14) + 
@@ -26,7 +35,7 @@ shinyServer(function(input, output, session) {
     subset(df_joined, Age.Group == input$age_group)
   })
   df_filter_state <- reactive({
-    subset(df_joined, State == input$state)
+    subset(df_distinct_conditions, State == input$state)
   })
   
   output$comment1 <- renderText({
@@ -38,57 +47,46 @@ shinyServer(function(input, output, session) {
     Additionally, the findings could inform public health policies aimed at mitigating the impact of such diseases on vulnerable populations in the future."
   })
   output$plot1 <- renderPlot({
-    num_states <- length(unique(df_joined$State))
+    num_states <- length(unique(df_distinct_deaths$State))
     text_angle <- ifelse(num_states >= 50, 0 , 90)
-    ggplot(df_joined, aes(x = State, y = COVID.19.Deaths)) +
-      geom_col() +
+    
+    ggplot(df_joined, aes(x = State, y = Income)) +
+      geom_col(show.legend = F, position = "dodge", stat = "identity") +
       geom_text(aes(label =  State), position = position_dodge(width = 0.9), size = 4.1, fontface = "bold", angle = text_angle) +
-      labs(title = "Death by Income") +
+      labs(title = "Income per State",
+           x = "State",
+           y = "Income") +
       plot_theme +
       theme(axis.title.x = element_blank(),
             axis.text.x = element_blank(),
             axis.ticks.x = element_blank())
-
-})
+  })
   output$plot2 <- renderPlot({
-    ggplot(df_joined, aes(x = State, y = Income)) +
-      geom_col() +
-      labs(title = "Death by Income",
-           x = "Income",
-           y = "No.Of Deaths") +
-      plot_theme
+    num_states <- length(unique(df_distinct_deaths$State))
+    text_angle <- ifelse(num_states >= 50, 0 , 90)
+    
+    ggplot(df_distinct_deaths, aes(x = State, y = total_deaths, fill = State)) +
+      geom_col(show.legend = F, position = "dodge", stat = "identity") +
+      geom_text(aes(label =  State), position = position_dodge(width = 0.9), size = 4.1, fontface = "bold", angle = text_angle) +
+      labs(title = "Deaths in Each State") +
+      plot_theme +
+      theme(axis.title.x = element_blank(),
+            axis.text.x = element_blank(),
+            axis.ticks.x = element_blank())
 })
-output$plot1 <- renderPlot({
-  num_states <- length(unique(df_joined$State))
-  text_angle <- ifelse(num_states >= 50, 0 , 90)
-  ggplot(df_joined, aes(x = State, y = COVID.19.Deaths)) +
-    geom_col() +
-    geom_text(aes(label =  State), position = position_dodge(width = 0.9), size = 4.1, fontface = "bold", angle = text_angle) +
-    labs(title = "Death by Income") +
-    plot_theme +
-    theme(axis.title.x = element_blank(),
-          axis.text.x = element_blank(),
-          axis.ticks.x = element_blank())
-  
-})
-output$plot2 <- renderPlot({
-  ggplot(df_joined, aes(x = State, y = Income)) +
-    geom_col() +
-    labs(title = "Death by Income",
-         x = "Income",
-         y = "No.Of Deaths") +
-    plot_theme
-})
-
     output$plot_3 <- renderPlot({
-      metric_string <- str_to_title(gsub("\\.", " ", input$political_party))
+      metric_string <- str_to_title(gsub("\\.", " ", input$condition))
+      num_conditions <- length(unique(df_filter_condition()$Condition))
+      text_angle <- ifelse(num_conditions >= 10, 0 , 90)
       
-      ggplot(df_joined, aes(x = input$political_party, y = COVID.19.Deaths, fill = State)) +
-        geom_col() +
-        xlab("Voters") +
-        ylab("Deaths") +
-        ggtitle("Covid 19 deaths by vote") + 
-        plot_theme
+      ggplot(df_filter_state(), aes(x = Condition, y = condition_deaths, fill = Condition)) +
+        geom_col(show.legend = F, position = "dodge", stat = "identity") +
+        geom_text(aes(label =  Condition), position = position_dodge(width = 0.9), size = 4.1, fontface = "bold", angle = text_angle) +
+        labs(title = "Deaths in Each State") +
+        plot_theme +
+        theme(axis.title.x = element_blank(),
+              axis.text.x = element_blank(),
+              axis.ticks.x = element_blank())
       
     })
     
