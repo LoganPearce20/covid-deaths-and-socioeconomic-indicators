@@ -92,10 +92,11 @@ output$plot2 <- renderPlot({
       
     })
     
+
     output$plot_4 <- renderPlot({
       #metric_string <- str_to_title(gsub("\\.", " ", input$political_party))
       
-      ggplot(df_filter_state, aes(x = total, y = COVID.19.Deaths, fill = State)) +
+      ggplot(df_joined, aes(x = State, y = COVID.19.Deaths, fill = total)) +
         geom_col() +
         xlab("Voters") +
         ylab("Deaths") +
