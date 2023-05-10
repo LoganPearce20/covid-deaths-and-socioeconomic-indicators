@@ -58,4 +58,52 @@ shinyServer(function(input, output, session) {
            y = "No.Of Deaths") +
       plot_theme
 })
+output$plot1 <- renderPlot({
+  num_states <- length(unique(df_joined$State))
+  text_angle <- ifelse(num_states >= 50, 0 , 90)
+  ggplot(df_joined, aes(x = State, y = COVID.19.Deaths)) +
+    geom_col() +
+    geom_text(aes(label =  State), position = position_dodge(width = 0.9), size = 4.1, fontface = "bold", angle = text_angle) +
+    labs(title = "Death by Income") +
+    plot_theme +
+    theme(axis.title.x = element_blank(),
+          axis.text.x = element_blank(),
+          axis.ticks.x = element_blank())
+  
 })
+output$plot2 <- renderPlot({
+  ggplot(df_joined, aes(x = State, y = Income)) +
+    geom_col() +
+    labs(title = "Death by Income",
+         x = "Income",
+         y = "No.Of Deaths") +
+    plot_theme
+})
+
+    output$plot_3 <- renderPlot({
+      metric_string <- str_to_title(gsub("\\.", " ", input$political_party))
+      
+      ggplot(df_joined, aes(x = input$political_party, y = COVID.19.Deaths, fill = State)) +
+        geom_col() +
+        xlab("Voters") +
+        ylab("Deaths") +
+        ggtitle("Covid 19 deaths by vote") + 
+        plot_theme
+      
+    })
+    
+    output$plot_4 <- renderPlot({
+      #metric_string <- str_to_title(gsub("\\.", " ", input$political_party))
+      
+      ggplot(df_filter_state, aes(x = total, y = COVID.19.Deaths, fill = State)) +
+        geom_col() +
+        xlab("Voters") +
+        ylab("Deaths") +
+        ggtitle("Covid 19 deaths by vote") + 
+        plot_theme
+    })
+})
+    
+      
+
+
