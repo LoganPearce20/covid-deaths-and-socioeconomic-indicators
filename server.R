@@ -49,5 +49,28 @@ shinyServer(function(input, output, session) {
              main = 'Histogram of waiting times')
 
     })
-
+    output$plot_3 <- renderPlot({
+      metric_string <- str_to_title(gsub("\\.", " ", input$political_party))
+      
+      ggplot(df_joined, aes(x = input$political_party, y = COVID.19.Deaths, fill = State)) +
+        geom_col() +
+        xlab("Voters") +
+        ylab("Deaths") +
+        ggtitle("Covid 19 deaths by vote") + 
+        plot_theme
+      
+    })
+    
+    output$plot_4 <- renderPlot({
+      #metric_string <- str_to_title(gsub("\\.", " ", input$political_party))
+      
+      ggplot(df_filter_state, aes(x = total, y = COVID.19.Deaths, fill = State)) +
+        geom_col() +
+        xlab("Voters") +
+        ylab("Deaths") +
+        ggtitle("Covid 19 deaths by vote") + 
+        plot_theme
+    })
+      
 })
+
