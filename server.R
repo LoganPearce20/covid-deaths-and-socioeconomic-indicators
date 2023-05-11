@@ -51,20 +51,21 @@ shinyServer(function(input, output, session) {
     The results of this study could potentially provide valuable insights into the social determinants of health and how they influence the spread and impact of infectious diseases like COVID-19. 
     Additionally, the findings could inform public health policies aimed at mitigating the impact of such diseases on vulnerable populations in the future."
   })
+  
+#-----------------------covid deaths by income---------------------------------
   output$plot1 <- renderPlot({
     num_states <- length(unique(df_distinct_deaths$State))
     text_angle <- ifelse(num_states >= 50, 0 , 90)
     
     ggplot(df_joined, aes(x = State, y = Income, fill = State)) +
       geom_col(show.legend = F, position = "dodge", stat = "identity") +
-      geom_text(aes(label =  State), position = position_dodge(width = 0.9), size = 4.1, fontface = "bold", angle = text_angle) +
       labs(title = "Income per State",
            x = "State",
            y = "Income") +
       plot_theme +
       theme(axis.title.x = element_blank(),
             axis.text.x = element_blank(),
-            axis.ticks.x = element_blank())
+            axis.ticks.x = element_blank()) + coord_flip()
   })
   output$plot2 <- renderPlot({
     num_states <- length(unique(df_distinct_deaths$State))
@@ -72,12 +73,11 @@ shinyServer(function(input, output, session) {
     
     ggplot(df_distinct_deaths, aes(x = State, y = total_deaths, fill = State)) +
       geom_col(show.legend = F, position = "dodge", stat = "identity") +
-      geom_text(aes(label =  State), position = position_dodge(width = 0.9), size = 4.1, fontface = "bold", angle = text_angle) +
       labs(title = "Deaths in Each State") +
       plot_theme +
       theme(axis.title.x = element_blank(),
             axis.text.x = element_blank(),
-            axis.ticks.x = element_blank())
+            axis.ticks.x = element_blank()) + coord_flip()
 })
     output$plot3 <- renderPlot({
       metric_string <- str_to_title(gsub("\\.", " ", input$condition))
@@ -86,13 +86,12 @@ shinyServer(function(input, output, session) {
       
       ggplot(df_filter_state(), aes(x = Condition, y = condition_deaths, fill = Condition)) +
         geom_col(show.legend = F, position = "dodge", stat = "identity") +
-        geom_text(aes(label =  Condition), position = position_dodge(width = 0.9), size = 4.1, fontface = "bold", angle = text_angle) +
         labs(title = "Deaths in Each State") +
         ggtitle(paste("Deaths by condition in",input$state)) +
         plot_theme +
         theme(axis.title.x = element_blank(),
               axis.text.x = element_blank(),
-              axis.ticks.x = element_blank())
+              axis.ticks.x = element_blank()) + coord_flip()
       
     })
     output$plot4 <- renderPlot({
@@ -107,8 +106,23 @@ shinyServer(function(input, output, session) {
       "Based on this data there is no evidence that income plays a role into how likely you are to 
       die from covid or what covid related conditions you are susceptible to."
     })
-})
-    
+ 
+    #----------------- covid deaths by marriage rate-------------------------------------   
+    output$plot5 <- renderPlot({
+      num_states <- length(unique(df_distinct_deaths$State))
+      text_angle <- ifelse(num_states >= 50, 0 , 90)
       
+      ggplot(df_joined, aes(x = marriageRate, y = total_deaths, fill = State)) +
+        geom_col(show.legend = F, position = "dodge", stat = "identity") +
+        labs(title = "Covid Death by Marriage Rate") +
+        plot_theme +
+        theme(axis.title.x = element_blank(),
+              axis.text.x = element_blank(),
+              axis.ticks.x = element_blank()) 
+})
+
+
+})
+
 
 
