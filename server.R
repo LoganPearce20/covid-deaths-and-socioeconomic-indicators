@@ -12,6 +12,11 @@ df_distinct_conditions <- df_joined %>%
   mutate(condition_deaths = sum(COVID.19.Deaths, na.rm = T)) %>%
   distinct(State, Condition, condition_deaths)
 
+df_distinct_income_deaths <- df_joined %>%
+  group_by(State, Income) %>%
+  mutate(income_deaths = sum(COVID.19.Deaths, na.rm = T)) %>%
+  distinct(State, Income, income_deaths)
+
 #Set plot theme
 plot_theme <- ggdark::dark_theme_gray(base_size = 14) + 
   theme(plot.title = element_text(),
@@ -50,7 +55,7 @@ shinyServer(function(input, output, session) {
     num_states <- length(unique(df_distinct_deaths$State))
     text_angle <- ifelse(num_states >= 50, 0 , 90)
     
-    ggplot(df_joined, aes(x = State, y = Income)) +
+    ggplot(df_joined, aes(x = State, y = Income, fill = State)) +
       geom_col(show.legend = F, position = "dodge", stat = "identity") +
       geom_text(aes(label =  State), position = position_dodge(width = 0.9), size = 4.1, fontface = "bold", angle = text_angle) +
       labs(title = "Income per State",
@@ -74,7 +79,7 @@ shinyServer(function(input, output, session) {
             axis.text.x = element_blank(),
             axis.ticks.x = element_blank())
 })
-    output$plot_3 <- renderPlot({
+    output$plot3 <- renderPlot({
       metric_string <- str_to_title(gsub("\\.", " ", input$condition))
       num_conditions <- length(unique(df_filter_condition()$Condition))
       text_angle <- ifelse(num_conditions >= 10, 0 , 90)
@@ -83,23 +88,24 @@ shinyServer(function(input, output, session) {
         geom_col(show.legend = F, position = "dodge", stat = "identity") +
         geom_text(aes(label =  Condition), position = position_dodge(width = 0.9), size = 4.1, fontface = "bold", angle = text_angle) +
         labs(title = "Deaths in Each State") +
+        ggtitle(paste("Deaths by condition in",input$state)) +
         plot_theme +
         theme(axis.title.x = element_blank(),
               axis.text.x = element_blank(),
               axis.ticks.x = element_blank())
       
     })
-    
-
-    output$plot_4 <- renderPlot({
-      #metric_string <- str_to_title(gsub("\\.", " ", input$political_party))
-      
-      ggplot(df_joined, aes(x = State, y = COVID.19.Deaths, fill = total)) +
-        geom_col() +
-        xlab("Voters") +
+    output$plot4 <- renderPlot({
+      ggplot(df_distinct_income_deaths, aes(x = Income, y = income_deaths)) +
+        geom_smooth() +
+        xlab("Income") +
         ylab("Deaths") +
-        ggtitle("Covid 19 deaths by vote") + 
+        ggtitle("Covid 19 deaths by Income") + 
         plot_theme
+    })
+    output$comment2 <- renderText({
+      "Based on this data there is no evidence that income plays a role into how likely you are to 
+      die from covid or what covid related conditions you are susceptible to."
     })
 })
     

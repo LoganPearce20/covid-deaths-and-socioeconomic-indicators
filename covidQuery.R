@@ -16,7 +16,8 @@ df_covid_data <- df_covid_data %>%
   select(Year, State, Condition.Group, Condition, Age.Group, COVID.19.Deaths, Number.of.Mentions, total_deaths, End.Date)
   
 df_income <- df_income %>%
-  filter(DATE == "1/1/20")
+  filter(DATE == "1/1/20") %>%
+  pivot_longer(cols = -DATE, names_to = "State", values_to = "Income")
 
 df_marital_status <- df_marital_status %>%
   filter(YEAR == "2020") 
@@ -50,9 +51,6 @@ names(df_voting_tendancy)[names(df_voting_tendancy) == "state"] <- "State"
 
 df_voting <- df_voting_tendancy %>%
   pivot_longer(cols = -c(State, total_republican, total_democrat, Pacific), names_to = "Race", values_to = "total")
-
-df_income1 <- df_income %>%
-  pivot_longer(cols = -DATE, names_to = "State", values_to = "Income")
 
 df_joined <- inner_join(df_covid_data, df_income1, by = "State") %>%
   inner_join(df_marital_status, by = "State") %>%

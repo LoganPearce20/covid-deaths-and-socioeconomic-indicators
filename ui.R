@@ -1,6 +1,7 @@
 library(shiny)
 library(ggplot2)
 library(shinythemes)
+library(shinyjs)
 
 df_joined <- read.csv("data/df_joined.csv")
 df_income <- read.csv("data/df_income.csv")
@@ -29,19 +30,21 @@ shinyUI(fluidPage(
       selectizeInput("political_party",
                      "Choose a political party:",
                      choices = colnames(select(df_joined, total_republican, total_democrat)),
-                     selected = "total_democrat")
-    ),
+                     selected = "total_democrat")),
 
         # Show a plot of the generated distribution
         mainPanel(
           fluidRow(
             # Sidebar with a slider input for number of bins
             tabsetPanel(
-              tabPanel("Introduction", htmlOutput("comment1")),
-              tabPanel("Covid Deaths by Income", 
+              tabPanel("Introduction", 
+                       htmlOutput("comment1")),
+              tabPanel("Covid Deaths by Income",
+                       htmlOutput("comment2"),
                        plotOutput("plot1"), 
                        plotOutput("plot2"),
-                       plotOutput('plot_3')),
+                       plotOutput('plot3'),
+                       plotOutput('plot4')),
               tabPanel("Covid Deaths by Marriage Rate"),
               tabPanel("Covid Deaths by Political Affiliation", 
               tabPanel("Covid Deaths by Race",
