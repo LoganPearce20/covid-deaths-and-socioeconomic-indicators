@@ -1,5 +1,6 @@
 library(shiny)
 library(ggplot2)
+library(viridis)
 
 df_joined <- read.csv("data/df_joined.csv")
 df_income <- read.csv("data/df_income.csv")
@@ -10,7 +11,7 @@ df_distinct_deaths <- df_joined %>%
 df_distinct_conditions <- df_joined %>%
   group_by(State, Condition) %>%
   mutate(condition_deaths = sum(COVID.19.Deaths, na.rm = T)) %>%
-  distinct(State, Condition, condition_deaths)
+  distinct(State, Condition, condition_deaths, Income)
 
 df_distinct_income_deaths <- df_joined %>%
   group_by(State, Income) %>%
@@ -34,7 +35,7 @@ shinyServer(function(input, output, session) {
     subset(df_joined, Condition.Group == input$condition_group)
   })
   df_filter_condition <- reactive({
-    subset(df_joined, Condition == input$condition)
+    subset(df_distinct_conditions, Condition == input$condition)
   })
   df_filter_age <- reactive({
     subset(df_joined, Age.Group == input$age_group)
@@ -97,6 +98,15 @@ shinyServer(function(input, output, session) {
     output$comment2 <- renderText({
       "Based on this data there is no evidence that income plays a role into how likely you are to 
       die from covid or what covid related conditions you are susceptible to."
+    })
+    output$plot5 <- renderPlot({
+      metric_string <- str_to_title(gsub("\\.", " ", input$condition))
+      
+      ggplot(df_filter_condition(),aes(x = Income, y = condition_deaths))+
+        geom_smooth() + 
+        ggtitle(input$condition,"Deaths Based on Income") +
+        ylab(input$condition) +
+        plot_theme
     })
 })
     

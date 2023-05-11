@@ -2,6 +2,7 @@ library(shiny)
 library(ggplot2)
 library(shinythemes)
 library(shinyjs)
+library(viridis)
 
 df_joined <- read.csv("data/df_joined.csv")
 df_income <- read.csv("data/df_income.csv")
@@ -44,7 +45,8 @@ shinyUI(fluidPage(
                        plotOutput("plot1"), 
                        plotOutput("plot2"),
                        plotOutput('plot3'),
-                       plotOutput('plot4')),
+                       plotOutput('plot4'),
+                       plotOutput('plot5')),
               tabPanel("Covid Deaths by Marriage Rate"),
               tabPanel("Covid Deaths by Political Affiliation", 
               tabPanel("Covid Deaths by Race",
