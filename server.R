@@ -57,14 +57,11 @@ shinyServer(function(input, output, session) {
     
     ggplot(df_joined, aes(x = State, y = Income, fill = State)) +
       geom_col(show.legend = F, position = "dodge", stat = "identity") +
-      geom_text(aes(label =  State), position = position_dodge(width = 0.9), size = 4.1, fontface = "bold", angle = text_angle) +
       labs(title = "Income per State",
            x = "State",
            y = "Income") +
       plot_theme +
-      theme(axis.title.x = element_blank(),
-            axis.text.x = element_blank(),
-            axis.ticks.x = element_blank())
+      coord_flip()
   })
   output$plot2 <- renderPlot({
     num_states <- length(unique(df_distinct_deaths$State))
@@ -72,12 +69,9 @@ shinyServer(function(input, output, session) {
     
     ggplot(df_distinct_deaths, aes(x = State, y = total_deaths, fill = State)) +
       geom_col(show.legend = F, position = "dodge", stat = "identity") +
-      geom_text(aes(label =  State), position = position_dodge(width = 0.9), size = 4.1, fontface = "bold", angle = text_angle) +
       labs(title = "Deaths in Each State") +
       plot_theme +
-      theme(axis.title.x = element_blank(),
-            axis.text.x = element_blank(),
-            axis.ticks.x = element_blank())
+      coord_flip()
 })
     output$plot3 <- renderPlot({
       metric_string <- str_to_title(gsub("\\.", " ", input$condition))
@@ -86,13 +80,10 @@ shinyServer(function(input, output, session) {
       
       ggplot(df_filter_state(), aes(x = Condition, y = condition_deaths, fill = Condition)) +
         geom_col(show.legend = F, position = "dodge", stat = "identity") +
-        geom_text(aes(label =  Condition), position = position_dodge(width = 0.9), size = 4.1, fontface = "bold", angle = text_angle) +
         labs(title = "Deaths in Each State") +
         ggtitle(paste("Deaths by condition in",input$state)) +
         plot_theme +
-        theme(axis.title.x = element_blank(),
-              axis.text.x = element_blank(),
-              axis.ticks.x = element_blank())
+        coord_flip()
       
     })
     output$plot4 <- renderPlot({
