@@ -63,9 +63,13 @@ shinyServer(function(input, output, session) {
            x = "State",
            y = "Income") +
       plot_theme +
+<<<<<<< HEAD
       theme(axis.title.x = element_blank(),
             axis.text.x = element_blank(),
             axis.ticks.x = element_blank()) + coord_flip()
+=======
+      coord_flip()
+>>>>>>> 16b684d759c56005cc1dc6177ccae3249a6a8374
   })
   output$plot2 <- renderPlot({
     num_states <- length(unique(df_distinct_deaths$State))
@@ -75,9 +79,13 @@ shinyServer(function(input, output, session) {
       geom_col(show.legend = F, position = "dodge", stat = "identity") +
       labs(title = "Deaths in Each State") +
       plot_theme +
+<<<<<<< HEAD
       theme(axis.title.x = element_blank(),
             axis.text.x = element_blank(),
             axis.ticks.x = element_blank()) + coord_flip()
+=======
+      coord_flip()
+>>>>>>> 16b684d759c56005cc1dc6177ccae3249a6a8374
 })
     output$plot3 <- renderPlot({
       metric_string <- str_to_title(gsub("\\.", " ", input$condition))
@@ -89,9 +97,13 @@ shinyServer(function(input, output, session) {
         labs(title = "Deaths in Each State") +
         ggtitle(paste("Deaths by condition in",input$state)) +
         plot_theme +
+<<<<<<< HEAD
         theme(axis.title.x = element_blank(),
               axis.text.x = element_blank(),
               axis.ticks.x = element_blank()) + coord_flip()
+=======
+        coord_flip()
+>>>>>>> 16b684d759c56005cc1dc6177ccae3249a6a8374
       
     })
     output$plot4 <- renderPlot({
