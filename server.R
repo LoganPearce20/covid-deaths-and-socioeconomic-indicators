@@ -52,6 +52,8 @@ shinyServer(function(input, output, session) {
     The results of this study could potentially provide valuable insights into the social determinants of health and how they influence the spread and impact of infectious diseases like COVID-19. 
     Additionally, the findings could inform public health policies aimed at mitigating the impact of such diseases on vulnerable populations in the future."
   })
+  
+#-----------------------covid deaths by income---------------------------------
   output$plot1 <- renderPlot({
     num_states <- length(unique(df_distinct_deaths$State))
     text_angle <- ifelse(num_states >= 50, 0 , 90)
@@ -85,7 +87,6 @@ shinyServer(function(input, output, session) {
         ggtitle(paste("Deaths by condition in",input$state)) +
         plot_theme +
         coord_flip()
-      
     })
     output$plot4 <- renderPlot({
       ggplot(df_distinct_income_deaths, aes(x = Income, y = income_deaths)) +
@@ -99,6 +100,7 @@ shinyServer(function(input, output, session) {
       "Based on this data there is no evidence that income plays a role into how likely you are to 
       die from covid or what covid related conditions you are susceptible to."
     })
+    
     output$plot5 <- renderPlot({
       metric_string <- str_to_title(gsub("\\.", " ", input$condition))
       
@@ -108,8 +110,18 @@ shinyServer(function(input, output, session) {
         ylab(input$condition) +
         plot_theme
     })
-})
-    
+    #----------------- covid deaths by marriage rate-------------------------------------   
+    output$plot6 <- renderPlot({
+      num_states <- length(unique(df_distinct_deaths$State))
+      text_angle <- ifelse(num_states >= 50, 0 , 90)
       
+      ggplot(df_joined, aes(x = marriageRate, y = total_deaths, fill = State)) +
+        geom_col(show.legend = F, position = "dodge", stat = "identity") +
+        labs(title = "Covid Death by Marriage Rate") +
+        plot_theme
+    })
+})
+
+
 
 

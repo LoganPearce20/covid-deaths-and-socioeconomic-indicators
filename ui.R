@@ -47,13 +47,16 @@ shinyUI(fluidPage(
                        plotOutput('plot3'),
                        plotOutput('plot4'),
                        plotOutput('plot5')),
-              tabPanel("Covid Deaths by Marriage Rate"),
-              tabPanel("Covid Deaths by Political Affiliation", 
+              tabPanel("Covid Deaths by Marriage Rate",
+                       plotOutput('plot6')),
+              
+              tabPanel("Covid Deaths by Political Affiliation"), 
+                       
               tabPanel("Covid Deaths by Race",
                        column(8,plotOutput('plot_4', width = '1000px'))),
               tabPanel("Covid Deaths by Age"),
             )
         )
     )
-))))
+)))
 
