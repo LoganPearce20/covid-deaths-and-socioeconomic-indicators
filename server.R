@@ -40,6 +40,10 @@ df_distinct_age <- df_joined %>%
   mutate(death_by_age = sum(COVID.19.Deaths, na.rm = T)) %>%
   distinct(State, Age.Group, death_by_age)
 
+df_distinct_marriages <- df_joined %>%
+  group_by(State, marriageRate) %>%
+  mutate(marriage_deaths = sum(COVID.19.Deaths, na.rm = T)) %>%
+  distinct(State, marriageRate, marriage_deaths)
 
 #Set plot theme
 plot_theme <- ggdark::dark_theme_gray(base_size = 14) + 
@@ -77,9 +81,6 @@ shinyServer(function(input, output, session) {
   
 #-----------------------covid deaths by income---------------------------------
   output$plot1 <- renderPlot({
-    num_states <- length(unique(df_distinct_deaths$State))
-    text_angle <- ifelse(num_states >= 50, 0 , 90)
-    
     ggplot(df_joined, aes(x = State, y = Income, fill = State)) +
       geom_col(show.legend = F, position = "dodge", stat = "identity") +
       labs(title = "Income per State",
@@ -89,9 +90,6 @@ shinyServer(function(input, output, session) {
       coord_flip()
   })
   output$plot2 <- renderPlot({
-    num_states <- length(unique(df_distinct_deaths$State))
-    text_angle <- ifelse(num_states >= 50, 0 , 90)
-    
     ggplot(df_distinct_deaths, aes(x = State, y = total_deaths, fill = State)) +
       geom_col(show.legend = F, position = "dodge", stat = "identity") +
       labs(title = "Deaths in Each State") +
@@ -99,10 +97,6 @@ shinyServer(function(input, output, session) {
       coord_flip()
 })
     output$plot3 <- renderPlot({
-      metric_string <- str_to_title(gsub("\\.", " ", input$condition))
-      num_conditions <- length(unique(df_filter_condition()$Condition))
-      text_angle <- ifelse(num_conditions >= 10, 0 , 90)
-      
       ggplot(df_filter_state(), aes(x = Condition, y = condition_deaths, fill = Condition)) +
         geom_col(show.legend = F, position = "dodge", stat = "identity") +
         labs(title = "Deaths in Each State") +
@@ -134,12 +128,17 @@ shinyServer(function(input, output, session) {
     })
     #----------------- covid deaths by marriage rate-------------------------------------   
     output$plot6 <- renderPlot({
-      num_states <- length(unique(df_distinct_deaths$State))
-      text_angle <- ifelse(num_states >= 50, 0 , 90)
-      
-      ggplot(df_joined, aes(x = marriageRate, y = total_deaths, fill = State)) +
+      ggplot(df_distinct_marriages, aes(x = State, y = marriageRate, fill = State)) +
         geom_col(show.legend = F, position = "dodge", stat = "identity") +
-        labs(title = "Covid Death by Marriage Rate") +
+        labs(title = "Marriage Rate in Each State") +
+        plot_theme +
+        coord_flip()
+    })
+    output$plot7 <- renderPlot({
+      ggplot(df_distinct_deaths, aes(x = marriageRate, y = marriage_deaths)) +
+        geom_smooth() +
+        xlab("Marriage Rate") +
+        ggtitle("Deaths by Marriage Rate") +
         plot_theme
     })
 
