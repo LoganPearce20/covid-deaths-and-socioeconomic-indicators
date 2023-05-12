@@ -54,7 +54,7 @@ df_voting <- df_voting_tendancy %>%
 
 df_joined <- inner_join(df_covid_data, df_income, by = "State") %>%
   inner_join(df_marital_status, by = "State") %>%
-  inner_join(df_voting_tendancy, by = "State") %>%
+  inner_join(df_voting, by = "State") %>%
   select(-DATE, -YEAR, -URL, -Year)
 
 write_csv(df_joined, "data/df_joined.csv")
