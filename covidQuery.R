@@ -14,10 +14,6 @@ df_covid_data <- df_covid_data %>%
   group_by(State) %>%
   mutate(total_deaths = sum(COVID.19.Deaths, na.rm = T)) %>%
   select(Year, State, Condition.Group, Condition, Age.Group, COVID.19.Deaths, Number.of.Mentions, total_deaths, End.Date)
-  
-df_income <- df_income %>%
-  filter(DATE == "1/1/20") %>%
-  pivot_longer(cols = -DATE, names_to = "State", values_to = "Income")
 
 df_marital_status <- df_marital_status %>%
   filter(YEAR == "2020") 
@@ -48,6 +44,7 @@ df_voting_tendancy <- df_voting_tendancy %>%
 names(df_marital_status)[names(df_marital_status) == "STATE"] <- "State"
 names(df_marital_status)[names(df_marital_status) == "RATE"] <- "marriageRate"
 names(df_voting_tendancy)[names(df_voting_tendancy) == "state"] <- "State"
+names(df_income)[names(df_income) == "X1.1.20"] <- "Income"
 
 df_voting <- df_voting_tendancy %>%
   pivot_longer(cols = -c(State, total_republican, total_democrat, Pacific), names_to = "Race", values_to = "total")
@@ -55,7 +52,7 @@ df_voting <- df_voting_tendancy %>%
 df_joined <- inner_join(df_covid_data, df_income, by = "State") %>%
   inner_join(df_marital_status, by = "State") %>%
   inner_join(df_voting_tendancy, by = "State") %>%
-  select(-DATE, -YEAR, -URL, -Year)
+  select(-YEAR, -URL, -Year, -X1.1.19, -X1.1.21)
 
 write_csv(df_joined, "data/df_joined.csv")
 write_csv(df_income, "data/df_income.csv")

@@ -2,6 +2,7 @@ library(shiny)
 library(ggplot2)
 library(shinythemes)
 library(shinyjs)
+library(viridis)
 
 df_joined <- read.csv("data/df_joined.csv")
 df_income <- read.csv("data/df_income.csv")
@@ -10,7 +11,7 @@ df_income <- read.csv("data/df_income.csv")
 shinyUI(fluidPage(
   theme = shinytheme("cyborg"),
     # Application title
-    titlePanel("Effects of Socioeconomic Factors on Covid Related Deaths by State"),
+    titlePanel("Effects of Socioeconomic Factors on Covid Related Deaths"),
 
     # Sidebar with inputs
   sidebarLayout(
@@ -26,11 +27,10 @@ shinyUI(fluidPage(
                      choices = distinct(df_joined, df_joined$Condition)),
       selectizeInput("age_group",
                      'Choose an Age Group:',
-                     choices = distinct(df_joined, df_joined$Age.Group)),
-      selectizeInput("political_party",
-                     "Choose a political party:",
-                     choices = colnames(select(df_joined, total_republican, total_democrat)),
-                     selected = "total_democrat")),
+                     choices = distinct(df_joined, df_joined$Age.Group))),
+       # selectizeInput("Race",
+       #                "Choose a race:",
+       #                choices = distinct(df_joined, df_joined$Race))),
 
         # Show a plot of the generated distribution
         mainPanel(
@@ -39,23 +39,31 @@ shinyUI(fluidPage(
             tabsetPanel(
               tabPanel("Introduction", 
                        htmlOutput("comment1")),
+              tabPanel("Overview of Each States Covid Deaths", 
+                       plotOutput("plot2"),
+                       plotOutput('plot3')),
               tabPanel("Covid Deaths by Income",
                        htmlOutput("comment2"),
                        plotOutput("plot1"), 
-                       plotOutput("plot2"),
-                       plotOutput('plot3'),
-                       plotOutput('plot4')),
-              
+                       plotOutput('plot4'),
+                       plotOutput('plot5')),
               tabPanel("Covid Deaths by Marriage Rate",
-                       plotOutput("plot5 ")),
-              
+                       plotOutput('plot6'),
+                       plotOutput('plot7')),
               tabPanel("Covid Deaths by Political Affiliation", 
-                       
-              tabPanel("Covid Deaths by Race",
-                       column(8,plotOutput('plot_4', width = '1000px'))),
-              tabPanel("Covid Deaths by Age"),
+                       htmlOutput("comment3"),
+                       column(8,plotOutput('plot8', width = '1000px')),
+                       column(8,plotOutput('plot9', width = '1000px')),
+                       column(8,plotOutput('plot10', width = '1000px')),
+                       column(8,plotOutput('plot11', width = '1000px'))),
+              tabPanel("Covid Deaths by Race"),
+              tabPanel("Covid Deaths by Age",
+                       htmlOutput("comment4"),
+                       plotOutput('plot12'),
+                       plotOutput('plot13'),
+                       plotOutput('plot14')),
             )
         )
     )
-))))
+)))
 
