@@ -18,6 +18,29 @@ df_distinct_income_deaths <- df_joined %>%
   mutate(income_deaths = sum(COVID.19.Deaths, na.rm = T)) %>%
   distinct(State, Income, income_deaths)
 
+df_distinct_democrat <- df_joined %>%
+  group_by(State, total_democrat) %>%
+  mutate(democrat_deaths = sum(COVID.19.Deaths, na.rm = T)) %>%
+  distinct(State, total_democrat, democrat_deaths) %>%
+  filter(total_democrat >= .5)
+
+df_distinct_republican <- df_joined %>%
+  group_by(State, total_republican) %>%
+  mutate(republican_deaths = sum(COVID.19.Deaths, na.rm = T)) %>%
+  distinct(State, total_republican, republican_deaths) %>%
+  filter(total_republican >= .5)
+
+#df_distinct_race <- df_joined %>%
+  #group_by(State, Hispanic) %>%
+  #mutate(death_by_race = sum(COVID.19.Deaths, na.rm = T)) %>%
+  #select(State, Hispanic, COVID.19.Deaths)
+
+df_distinct_age <- df_joined %>%
+  group_by(State, Age.Group) %>%
+  mutate(death_by_age = sum(COVID.19.Deaths, na.rm = T)) %>%
+  distinct(State, Age.Group, death_by_age)
+
+
 #Set plot theme
 plot_theme <- ggdark::dark_theme_gray(base_size = 14) + 
   theme(plot.title = element_text(),
@@ -38,12 +61,11 @@ shinyServer(function(input, output, session) {
     subset(df_distinct_conditions, Condition == input$condition)
   })
   df_filter_age <- reactive({
-    subset(df_joined, Age.Group == input$age_group)
+    subset(df_distinct_age, Age.Group == input$age_group)
   })
   df_filter_state <- reactive({
     subset(df_distinct_conditions, State == input$state)
   })
-  
   output$comment1 <- renderText({
     "The project aims to investigate the relationship between the socioeconomic factors of each state 
     and their impact on COVID-19 related deaths in the year 2020. 
@@ -120,6 +142,87 @@ shinyServer(function(input, output, session) {
         labs(title = "Covid Death by Marriage Rate") +
         plot_theme
     })
+
+    #------------------ covid deaths by political Affiliation ----------------------------
+    output$plot7 <- renderPlot({
+      metric_string <- str_to_title(gsub("\\.", " ", input$political_party))
+      
+      ggplot(df_distinct_democrat, aes(x = State, y = democrat_deaths, fill = State)) +
+        geom_col() +
+        xlab("democrat") +
+        ylab("Deaths") +
+        ggtitle("Covid 19 deaths by vote") + 
+        plot_theme
+      
+    })
+    output$plot8 <- renderPlot({
+      metric_string <- str_to_title(gsub("\\.", " ", input$political_party))
+      
+      ggplot(df_distinct_republican, aes(x = State, y = republican_deaths, fill = State)) +
+        geom_col() +
+        xlab("republican") +
+        ylab("Deaths") +
+        ggtitle("Covid 19 deaths by vote") + 
+        plot_theme
+      
+    })
+    output$plot9 <- renderPlot({
+      
+      ggplot(df_distinct_democrat,aes(x = total_democrat, y = democrat_deaths))+
+        geom_smooth() + 
+        ggtitle("Proportion of Democrats") +
+        ylab("Deaths") +
+        plot_theme
+    })   
+    output$plot10 <- renderPlot({
+      
+      ggplot(df_distinct_republican,aes(x = total_republican, y = republican_deaths))+
+        geom_smooth() + 
+        ggtitle("Proportion of Republican") +
+        ylab("Deaths") +
+        plot_theme
+    })   
+    
+    output$comment3 <- renderText({
+      "Based on this data there is evidence that the greater amount of rebublicans by state the less deaths there were. 
+      Compared to the states with more Demorats that have more deaths."
+    })
+    
+    
+    #---------------------------------- deaths by race ------------------------------
+    
+    # output$plot11 <- renderPlot({
+    #   metric_string <- str_to_title(gsub("\\.", " ", input$Race))
+    #   ggplot(df_distinct_race, aes(x = Race, y = death_by_race, fill = Race)) +
+    #     geom_col() +
+    #     xlab("Race") +
+    #     ylab("Deaths") +
+    #     ggtitle("Covid 19 deaths by race") + 
+    #     plot_theme
+    # })   
+    # 
+    
+    #----------------------------------- deaths by age ------------------------------
+    output$plot11 <- renderPlot({
+      #metric_string <- str_to_title(gsub("\\.", " ", input$political_party))
+      
+      ggplot(df_distinct_age, aes(x = Age.Group, y = death_by_age, fill = Age.Group)) +
+        geom_col() +
+        xlab("Age") +
+        ylab("Deaths") +
+        ggtitle("Covid 19 deaths by age") + 
+        plot_theme
+      
+    })
+    output$plot12 <- renderPlot({
+      metric_string <- str_to_title(gsub("\\.", " ", input$age_group))
+      
+      ggplot(df_distinct_age,aes(x = Age.Group, y = death_by_age))+
+        geom_smooth() + 
+        ggtitle(input$age_group,"Deaths Based on age") +
+        ylab(input$age_group) +
+        plot_theme
+    }) 
 })
 
 

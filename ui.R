@@ -28,10 +28,9 @@ shinyUI(fluidPage(
       selectizeInput("age_group",
                      'Choose an Age Group:',
                      choices = distinct(df_joined, df_joined$Age.Group)),
-      selectizeInput("political_party",
-                     "Choose a political party:",
-                     choices = colnames(select(df_joined, total_republican, total_democrat)),
-                     selected = "total_democrat")),
+       selectizeInput("Race",
+                      "Choose a race:",
+                      choices = distinct(df_joined, df_joined$Race))),
 
         # Show a plot of the generated distribution
         mainPanel(
@@ -50,11 +49,19 @@ shinyUI(fluidPage(
               tabPanel("Covid Deaths by Marriage Rate",
                        plotOutput('plot6')),
               
-              tabPanel("Covid Deaths by Political Affiliation"), 
-                       
-              tabPanel("Covid Deaths by Race",
-                       column(8,plotOutput('plot_4', width = '1000px'))),
-              tabPanel("Covid Deaths by Age"),
+               tabPanel("Covid Deaths by Political Affiliation", 
+                        htmlOutput("comment3"),
+                        column(8,plotOutput('plot7', width = '1000px')),
+                        column(8,plotOutput('plot8', width = '1000px')),
+                        column(8,plotOutput('plot9', width = '1000px')),
+                        column(8,plotOutput('plot10', width = '1000px'))),
+              
+              
+              
+               tabPanel("Covid Deaths by Race"),
+                        
+              tabPanel("Covid Deaths by Age",
+                       plotOutput('plot12')),
             )
         )
     )

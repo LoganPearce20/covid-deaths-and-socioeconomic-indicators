@@ -49,12 +49,12 @@ names(df_marital_status)[names(df_marital_status) == "STATE"] <- "State"
 names(df_marital_status)[names(df_marital_status) == "RATE"] <- "marriageRate"
 names(df_voting_tendancy)[names(df_voting_tendancy) == "state"] <- "State"
 
-df_voting <- df_voting_tendancy %>%
-  pivot_longer(cols = -c(State, total_republican, total_democrat, Pacific), names_to = "Race", values_to = "total")
+# df_voting <- df_voting_tendancy %>%
+#   pivot_longer(cols = -c(State, total_republican, total_democrat, Pacific), names_to = "Race", values_to = "total")
 
 df_joined <- inner_join(df_covid_data, df_income, by = "State") %>%
   inner_join(df_marital_status, by = "State") %>%
-  inner_join(df_voting, by = "State") %>%
+  inner_join(df_voting_tendancy, by = "State") %>%
   select(-DATE, -YEAR, -URL, -Year)
 
 write_csv(df_joined, "data/df_joined.csv")
