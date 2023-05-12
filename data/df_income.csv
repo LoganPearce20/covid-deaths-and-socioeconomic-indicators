@@ -1,51 +1,51 @@
-DATE,State,Income
-1/1/20,Alaska,78236
-1/1/20,Alabama,57243
-1/1/20,Arkansas,53148
-1/1/20,Arizona,70220
-1/1/20,California,81278
-1/1/20,Colorado,87689
-1/1/20,Connecticut,83141
-1/1/20,Delaware,73292
-1/1/20,Florida,60460
-1/1/20,Georgia,62033
-1/1/20,Hawaii,84600
-1/1/20,Iowa,72030
-1/1/20,Idaho,69841
-1/1/20,Illinois,77805
-1/1/20,Indiana,69925
-1/1/20,Kansas,76495
-1/1/20,Kentucky,59405
-1/1/20,Louisiana,53576
-1/1/20,Massachusetts,91912
-1/1/20,Maryland,99215
-1/1/20,Maine,66667
-1/1/20,Michigan,67399
-1/1/20,Minnesota,82431
-1/1/20,Missouri,65081
-1/1/20,Mississippi,47242
-1/1/20,Montana,59390
-1/1/20,North.Carolina,63252
-1/1/20,North.Dakota,67109
-1/1/20,Nebraska,75622
-1/1/20,New.Hampshire,93045
-1/1/20,New.Jersey,89543
-1/1/20,New.Mexico,53283
-1/1/20,Nevada,64020
-1/1/20,New.York,71865
-1/1/20,Ohio,63198
-1/1/20,Oklahoma,54921
-1/1/20,Oregon,80443
-1/1/20,Pennsylvania,74094
-1/1/20,Rhode.Island,83918
-1/1/20,South.Carolina,63159
-1/1/20,South.Dakota,73467
-1/1/20,Tennessee,57542
-1/1/20,Texas,71599
-1/1/20,Utah,87915
-1/1/20,Virginia,86053
-1/1/20,Vermont,70398
-1/1/20,Washington,85157
-1/1/20,Wisconsin,70553
-1/1/20,West.Virginia,54396
-1/1/20,Wyoming,68506
+State,X1.1.20
+Alaska,78236
+Alabama,57243
+Arkansas,53148
+Arizona,70220
+California,81278
+Colorado,87689
+Connecticut,83141
+Delaware,73292
+Florida,60460
+Georgia,62033
+Hawaii,84600
+Iowa,72030
+Idaho,69841
+Illinois,77805
+Indiana,69925
+Kansas,76495
+Kentucky,59405
+Louisiana,53576
+Massachusetts,91912
+Maryland,99215
+Maine,66667
+Michigan,67399
+Minnesota,82431
+Missouri,65081
+Mississippi,47242
+Montana,59390
+North Carolina,63252
+North Dakota,67109
+Nebraska,75622
+New Hampshire,93045
+New Jersey ,89543
+New Mexico,53283
+Nevada,64020
+New York ,71865
+Ohio,63198
+Oklahoma,54921
+Oregon,80443
+Pennsylvania,74094
+Rhode Island,83918
+South Carolina ,63159
+South Dakota,73467
+Tennessee,57542
+Texas,71599
+Utah,87915
+Virginia,86053
+Vermont,70398
+Washington,85157
+Wisconsin,70553
+West Virginia,54396
+Wyoming,68506
