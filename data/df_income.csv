@@ -1,51 +1,51 @@
-State,X1.1.20
-Alaska,78236
-Alabama,57243
-Arkansas,53148
-Arizona,70220
-California,81278
-Colorado,87689
-Connecticut,83141
-Delaware,73292
-Florida,60460
-Georgia,62033
-Hawaii,84600
-Iowa,72030
-Idaho,69841
-Illinois,77805
-Indiana,69925
-Kansas,76495
-Kentucky,59405
-Louisiana,53576
-Massachusetts,91912
-Maryland,99215
-Maine,66667
-Michigan,67399
-Minnesota,82431
-Missouri,65081
-Mississippi,47242
-Montana,59390
-North Carolina,63252
-North Dakota,67109
-Nebraska,75622
-New Hampshire,93045
-New Jersey ,89543
-New Mexico,53283
-Nevada,64020
-New York ,71865
-Ohio,63198
-Oklahoma,54921
-Oregon,80443
-Pennsylvania,74094
-Rhode Island,83918
-South Carolina ,63159
-South Dakota,73467
-Tennessee,57542
-Texas,71599
-Utah,87915
-Virginia,86053
-Vermont,70398
-Washington,85157
-Wisconsin,70553
-West Virginia,54396
-Wyoming,68506
+State,X1.1.19,Income,X1.1.21
+Alaska,83079,78236,81133
+Alabama,59558,57243,56929
+Arkansas,57799,53148,50784
+Arizona,74897,70220,70821
+California,82772,81278,81575
+Colorado,76832,87689,84954
+Connecticut,92507,83141,80958
+Delaware,78628,73292,68687
+Florida,61856,60460,59734
+Georgia,60012,62033,61497
+Hawaii,93265,84600,82199
+Iowa,70002,72030,72429
+Idaho,69932,69841,76918
+Illinois,78845,77805,79253
+Indiana,70679,69925,70190
+Kansas,77523,76495,75979
+Kentucky,58989,59405,55629
+Louisiana,54797,53576,57206
+Massachusetts,92949,91912,86566
+Maryland,101283,99215,97332
+Maine,70523,66667,71139
+Michigan,67951,67399,64488
+Minnesota,86292,82431,80441
+Missouri,64218,65081,63594
+Mississippi,47463,47242,46637
+Montana,63792,59390,64999
+North Carolina,64814,63252,62891
+North Dakota,74216,67109,68882
+Nebraska,77437,75622,78109
+New Hampshire,92093,93045,88841
+New Jersey ,92969,89543,88559
+New Mexico,56287,53283,53463
+Nevada,75143,64020,64340
+New York ,76149,71865,72920
+Ohio,68527,63198,62689
+Oklahoma,62946,54921,60096
+Oregon,78860,80443,81855
+Pennsylvania,74800,74094,72627
+Rhode Island,74344,83918,74982
+South Carolina ,65735,63159,62542
+South Dakota,68095,73467,73893
+Tennessee,60011,57542,62166
+Texas,71474,71599,67404
+Utah,89574,87915,87649
+Virginia,86172,86053,80268
+Vermont,78746,70398,76079
+Washington,87381,85157,87648
+Wisconsin,71380,70553,69943
+West Virginia,56916,54396,46836
+Wyoming,69027,68506,71052
