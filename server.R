@@ -1,6 +1,7 @@
 library(shiny)
 library(ggplot2)
 library(viridis)
+library(lme4)
 
 df_joined <- read.csv("data/df_joined.csv")
 df_income <- read.csv("data/df_income.csv")
@@ -145,8 +146,8 @@ shinyServer(function(input, output, session) {
         plot_theme
     })
     output$comment2 <- renderText({
-      "Based on this data there is no evidence that income plays a role into how likely you are to 
-      die from covid or what covid related conditions you are susceptible to."
+      "Based on this data and our model there is no evidence that income is an effective indicator in regards
+      to someones risk of death if they contract covid-19."
     })
     
     output$plot5 <- renderPlot({
@@ -184,7 +185,7 @@ shinyServer(function(input, output, session) {
         plot_theme
     })
     output$comment5 <- renderText({
-      "Based on this data there does seem to be a link between a states marriage rate and covid-19 Deaths"
+      "Based on this data and our model there does seem to be a link between a states marriage rate and covid-19 Deaths"
     })
 
     #------------------ covid deaths by political Affiliation ----------------------------
@@ -228,8 +229,8 @@ shinyServer(function(input, output, session) {
     })   
     
     output$comment3 <- renderText({
-      "Based on this data there is evidence that the greater amount of rebublicans by state the less deaths there were. 
-      Compared to the states with more Demorats that have more deaths."
+      "Based on this data and our models there is no evidence that ones political affiliation plays any role
+      into how likely they are to die from COVID-19."
     })
     
     
@@ -272,11 +273,27 @@ shinyServer(function(input, output, session) {
         plot_theme
     }) 
     output$comment4 <- renderText({
-      "Based on this data there is a clear trend that the socioeconomic factor of age plays a large role
-      in how likely you are to die from covid-19"
+      "Based on this data and our model there is evidence that age is only an effective indicator of 
+      death for someone suffering from Covid-19 if they are over the age of 55."
     })
-})
-
-
+    #----------------------------------- models ------------------------------
+    hierarchical_model_age <- lmer( COVID.19.Deaths ~ Age.Group + (1|State), data = df_distinct_age_condition)
+    hierarchical_model_republican <- lmer( COVID.19.Deaths ~ total_republican + (1|State), data = df_joined)
+    hierarchical_model_income <- lmer( COVID.19.Deaths ~ Income + (1|State), data = df_joined)
+    hierarchical_model_marriage <- lmer( COVID.19.Deaths ~ marriageRate + (1|State), data = df_joined)
+    
+    output$plot17 <- renderPrint({
+      summary(hierarchical_model_age)
+    })
+    output$plot18 <- renderPrint({
+      summary(hierarchical_model_republican)
+    })
+    output$plot19 <- renderPrint({
+      summary(hierarchical_model_income)
+    })
+    output$plot20 <- renderPrint({
+      summary(hierarchical_model_marriage)
+    })
+ }) 
 
 
