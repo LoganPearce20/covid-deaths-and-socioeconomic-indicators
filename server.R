@@ -305,6 +305,14 @@ shinyServer(function(input, output, session) {
     output$plot20 <- renderPrint({
       summary(hierarchical_model_marriage)
     })
+ #-----------------------Idea Backlog--------------------------------------------------   
+    output$comment8 <- renderText({
+      "1.We planned on creating a leaflet map displaying the covid deaths by zipcode, however we only had lat & lon data 
+      for voting by county and making a map for that could not make sense
+      2. Tried using Race as a socioeconomic factor, however, we did not have data on the ethinicity of the person who died 
+      due to covid.Therefore, we could not use race. 
+      3. "
+    })
  }) 
 
 

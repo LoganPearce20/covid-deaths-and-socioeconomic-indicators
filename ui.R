@@ -70,7 +70,8 @@ shinyUI(fluidPage(
                        plotOutput('plot14'),
                        verbatimTextOutput('plot17')),
               tabPanel("Model Citations"),
-              tabPanel("Idea Backlog")
+              tabPanel("Idea Backlog",
+                       htmlOutput("comment8"))
                        
             )
         )
