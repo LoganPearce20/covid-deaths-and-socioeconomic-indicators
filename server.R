@@ -238,16 +238,16 @@ shinyServer(function(input, output, session) {
     
     #---------------------------------- deaths by race ------------------------------
     
-    # output$plot11 <- renderPlot({
-    #   metric_string <- str_to_title(gsub("\\.", " ", input$Race))
-    #   ggplot(df_distinct_race, aes(x = Race, y = death_by_race, fill = Race)) +
-    #     geom_col() +
-    #     xlab("Race") +
-    #     ylab("Deaths") +
-    #     ggtitle("Covid 19 deaths by race") + 
-    #     plot_theme
-    # })   
-    # 
+      #output$plot11 <- renderPlot({
+       #metric_string <- str_to_title(gsub("\\.", " ", input$Race))
+       #ggplot(df_distinct_state_race, aes(x = Race, y = race_deaths, fill = Race)) +
+         #geom_col() +
+         #xlab("Race") +
+         #ylab("Deaths") +
+         #ggtitle("Covid 19 deaths by race") + 
+         #plot_theme
+     #})   
+     
     
     #----------------------------------- deaths by age ------------------------------
     output$plot12 <- renderPlot({
