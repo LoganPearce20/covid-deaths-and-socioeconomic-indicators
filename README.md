@@ -19,7 +19,7 @@ In this project we have collected data on the number of deaths due to covid 19 t
         filter(Year == "2020") %>%
         group_by(State) %>%
         mutate(total_deaths = sum(COVID.19.Deaths, na.rm = T))
-2. Find the total proportion of each political party in each State
+  2. Find the total proportion of each political party in each State
     df_voting_tendancy <- df_voting_tendancy %>%
     select(state, percentage20_Donald_Trump, percentage20_Joe_Biden, total_votes20, votes20_Donald_Trump, 
             votes20_Joe_Biden, TotalPop, Hispanic, White, Black, Asian, Native, Pacific) %>%
@@ -45,16 +45,26 @@ In this project we have collected data on the number of deaths due to covid 19 t
   3. Changed the names of variables 
     names(df_marital_status)[names(df_marital_status) == "STATE"] <- "State"
     names(df_marital_status)[names(df_marital_status) == "RATE"] <- "marriageRate"  
-    
 ## Graphs 📈
-All our graphs were made using the ggplot function. 
+All our graphs were made using the ggplot function.
 
-    output$plot1 <- renderPlot({
-        ggplot(df_joined, aes(x = State, y = Income, fill = State)) +
-        geom_col(show.legend = F, position = "dodge", stat = "identity") +
-        labs(title = "Income per State",
-            x = "State",
-            y = "Income") +
-        plot_theme +
-        coord_flip() 
+- Income per State Graph 
+
+        output$plot1 <- renderPlot({
+            ggplot(df_joined, aes(x = State, y = Income, fill = State)) +
+            geom_col(show.legend = F, position = "dodge", stat = "identity") +
+            labs(title = "Income per State",
+                x = "State",
+                y = "Income") +
+            plot_theme +
+            coord_flip() 
+
+    - Covid Death by Age
+
+            gplot(df_distinct_age, aes(x = Age.Group, y = death_by_age, fill = Age.Group)) +
+            geom_col(show.legend = F) +
+            xlab("Age") +
+            ylab("Deaths") +
+            ggtitle("Covid 19 deaths by age") + 
+            plot_theme
 ## Modelling🔋
