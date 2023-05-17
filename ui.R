@@ -26,11 +26,7 @@ shinyUI(fluidPage(
       selectizeInput("age_group",
                      'Choose an Age Group:',
                      choices = distinct(df_joined, df_joined$Age.Group))),
-       # selectizeInput("Race",
-       #                "Choose a race:",
-       #                choices = distinct(df_joined, df_joined$Race))),
 
-        # Show a plot of the generated distribution
         mainPanel(
           fluidRow(
             # Sidebar with a slider input for number of bins
@@ -62,7 +58,6 @@ shinyUI(fluidPage(
                        plotOutput('plot10'),
                        plotOutput('plot11'),
                        verbatimTextOutput('plot18')),
-              tabPanel("Covid Deaths by Race"),
               tabPanel("Covid Deaths by Age",
                        htmlOutput("comment4"),
                        plotOutput('plot12'),
