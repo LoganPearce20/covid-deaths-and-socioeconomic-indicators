@@ -305,6 +305,7 @@ shinyServer(function(input, output, session) {
     output$plot20 <- renderPrint({
       summary(hierarchical_model_marriage)
     })
+
     output$citation1 <- renderPrint({
       "“Linear Mixed-Effects Models in Medical Research” by Kwon et al. 
        (2021) 1 discusses the use of linear mixed-effects models (LMMs) in medical research. 
@@ -321,6 +322,15 @@ shinyServer(function(input, output, session) {
     })
     output$citation3 <- renderText({
         "Pearce, L. J. (2023, May 16). Linear Mixed Effects Models for Medical Data. Bing Chatbot. https://github.com/microsoft/bing-chatbot"
+    })
+
+ #-----------------------Idea Backlog--------------------------------------------------   
+    output$comment8 <- renderText({
+      "1.We planned on creating a leaflet map displaying the covid deaths by zipcode, however we only had lat & lon data 
+      for voting by county and making a map for that could not make sense
+      2. Tried using Race as a socioeconomic factor, however, we did not have data on the ethinicity of the person who died 
+      due to covid.Therefore, we could not use race. 
+      3. "
     })
  }) 
 

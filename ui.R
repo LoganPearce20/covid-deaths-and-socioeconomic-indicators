@@ -68,7 +68,10 @@ shinyUI(fluidPage(
                        htmlOutput('citation1'),
                        htmlOutput('citation2'),
                        htmlOutput('citation3')),
-              tabPanel("Idea Backlog")
+              tabPanel("Model Citations"),
+              tabPanel("Idea Backlog",
+                       htmlOutput("comment8"))
+
                        
             )
         )
