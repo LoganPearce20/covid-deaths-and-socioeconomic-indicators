@@ -305,6 +305,13 @@ shinyServer(function(input, output, session) {
     output$plot20 <- renderPrint({
       summary(hierarchical_model_marriage)
     })
- }) 
+    
+    
+    #------------------------------------linear regression model----------------------
+    model <- lm(COVID.19.Deaths ~ State + Age.Group + Income 
+                + marriageRate + total_republican 
+                + total_democrat, data = df_joined)
+ summary(model)
+    }) 
 
 
