@@ -2,6 +2,7 @@ library(shiny)
 library(ggplot2)
 library(viridis)
 library(lme4)
+library(dplyr)
 
 df_joined <- read.csv("data/df_joined.csv")
 df_income <- read.csv("data/df_income.csv")
@@ -99,6 +100,14 @@ shinyServer(function(input, output, session) {
   output$comment6 <- renderText({
     "The scope of this project is limited to the socioeconomic factors of income, marriage rate, density of republican
     vs. democratic voters, race, and age and how each one of those interacts with ones liklihood of dying after contracting covid-19."
+  })
+  output$comment7 <- renderText({
+    "The requirements of this project are as follows:
+    1. Covid-19 DATA
+    2. Socio-economic Data
+    3. Data Cleaning and Integration
+    4. Data Analysis and Visualization
+    5. Create a linear mixed affects Model"
   })
 #-----------------------covid deaths by income---------------------------------
   output$plot1 <- renderPlot({

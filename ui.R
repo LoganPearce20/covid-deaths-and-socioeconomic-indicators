@@ -3,6 +3,7 @@ library(ggplot2)
 library(shinythemes)
 library(shinyjs)
 library(viridis)
+library(dplyr)
 
 df_joined <- read.csv("data/df_joined.csv")
 df_income <- read.csv("data/df_income.csv")
@@ -36,7 +37,8 @@ shinyUI(fluidPage(
             tabsetPanel(
               tabPanel("Introduction", 
                        htmlOutput("comment1"),
-                       htmlOutput('comment6')),
+                       htmlOutput('comment6'),
+                       htmlOutput('comment7')),
               tabPanel("Overview of Each States Covid Deaths", 
                        plotOutput("plot2"),
                        plotOutput('plot16'),
