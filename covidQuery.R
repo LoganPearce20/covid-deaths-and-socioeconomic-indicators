@@ -39,7 +39,7 @@ df_voting_tendancy <- df_voting_tendancy %>%
   mutate(Asian = sum(Asian, na.rm = T)) %>%
   mutate(Native = sum(Native, na.rm = T)) %>%
   mutate(Pacific = sum(Pacific, na.rm = T)) %>%
-  distinct(total_republican, total_democrat, White, Black, Hispanic, Asian, Native, Pacific)
+  distinct(total_republican, total_democrat, White, Black, Hispanic, Asian, Native, Pacific, TotalPop)
 
 names(df_marital_status)[names(df_marital_status) == "STATE"] <- "State"
 names(df_marital_status)[names(df_marital_status) == "RATE"] <- "marriageRate"

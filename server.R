@@ -3,6 +3,8 @@ library(ggplot2)
 library(viridis)
 library(lme4)
 library(dplyr)
+library(DT)
+library(tidyverse)
 
 df_joined <- read.csv("data/df_joined.csv")
 df_income <- read.csv("data/df_income.csv")
@@ -39,9 +41,9 @@ df_distinct_republican <- df_joined %>%
 
 df_distinct_age <- df_joined %>%
   filter(Age.Group %in% c("0-24", "25-34", "35-44", "45-54", "55-64", "65-74", "75-84", "85+")) %>%
-  group_by(State, Age.Group) %>%
+  group_by(State, Age.Group, TotalPop) %>%
   mutate(death_by_age = sum(COVID.19.Deaths, na.rm = T)) %>%
-  distinct(State, Age.Group,death_by_age)
+  distinct(State, Age.Group,death_by_age, TotalPop)
 
 df_distinct_marriages <- df_joined %>%
   group_by(State, marriageRate) %>%
@@ -57,6 +59,22 @@ df_distinct_age_condition <- df_joined %>%
   filter(Age.Group %in% c("0-24", "25-34", "35-44", "45-54", "55-64", "65-74", "75-84", "85+")) %>%
   group_by(State, Condition) %>%
   distinct(State, Condition, COVID.19.Deaths, Age.Group)
+
+df_distinct_pop <- df_joined %>%
+  group_by(State, TotalPop) %>%
+  mutate(pop_deaths = sum(COVID.19.Deaths, na.rm = T)) %>%
+  distinct(State,TotalPop,pop_deaths)
+
+#------------------------------------linear regression model----------------------
+model <- lm(death_by_age ~  Age.Group + State + TotalPop,  data = df_distinct_age)
+
+df_distinct_age$casualty_predictions <-  predict(model, newdata = df_distinct_age)
+
+df_distinct_age$casualty_predictions <- ceiling(df_distinct_age$casualty_predictions)
+
+df_distinct_age$casualty_predictions[df_distinct_age$casualty_predictions < 0] <- 0
+  
+
 
 #Set plot theme
 plot_theme <- ggdark::dark_theme_gray(base_size = 14) + 
@@ -80,6 +98,9 @@ shinyServer(function(input, output, session) {
   df_filter_age <- reactive({
     subset(df_distinct_age, Age.Group == input$age_group)
   })
+  df_filter_age2 <- reactive({
+    subset(df_distinct_age2, State == input$state)
+  })
   df_filter_state <- reactive({
     subset(df_distinct_conditions, State == input$state)
   })
@@ -87,7 +108,7 @@ shinyServer(function(input, output, session) {
     subset(df_distinct_age_condition, Condition == input$condition)
     })
   df_filter_condition3 <- reactive({
-    subset(df_distinct_marriage_condition, Condition == input$condition)
+    subset(df_distinct_marriage_condition, Condition == input$condition) 
   })
   output$comment1 <- renderText({
     "The project aims to investigate the relationship between the socioeconomic factors of each state 
@@ -287,11 +308,29 @@ shinyServer(function(input, output, session) {
       "Based on this data and our model there is evidence that age is only an effective indicator of 
       death for someone suffering from Covid-19 if they are over the age of 55."
     })
+    #----------------------------------- deaths by population ------------------------------
+    output$plot21 <- renderPlot({
+      ggplot(df_distinct_pop, aes(x = State, y = TotalPop, fill = State)) +
+        geom_col(show.legend = F) +
+        xlab("State") +
+        ylab("Population") +
+        ggtitle("Total population of each state") + 
+        plot_theme +
+        coord_flip()
+    })
+    output$plot22 <- renderPlot({
+      ggplot(df_distinct_pop,aes(x = TotalPop, y = pop_deaths))+
+        geom_smooth(show.legend = F) + 
+        ggtitle("Deaths by Population Density") +
+        ylab("Deaths") +
+        plot_theme
+    })   
     #----------------------------------- models ------------------------------
     hierarchical_model_age <- lmer( COVID.19.Deaths ~ Age.Group + (1|State), data = df_distinct_age_condition)
     hierarchical_model_republican <- lmer( COVID.19.Deaths ~ total_republican + (1|State), data = df_joined)
     hierarchical_model_income <- lmer( COVID.19.Deaths ~ Income + (1|State), data = df_joined)
     hierarchical_model_marriage <- lmer( COVID.19.Deaths ~ marriageRate + (1|State), data = df_joined)
+    hierarchical_model_pop <- lmer( COVID.19.Deaths ~ TotalPop + (1|State), data = df_joined)
     
     output$plot17 <- renderPrint({
       summary(hierarchical_model_age)
@@ -305,13 +344,15 @@ shinyServer(function(input, output, session) {
     output$plot20 <- renderPrint({
       summary(hierarchical_model_marriage)
     })
+    output$plot23 <- renderPrint({
+      summary(hierarchical_model_pop)
+    })
     
-    
-    #------------------------------------linear regression model----------------------
-    model <- lm(COVID.19.Deaths ~ State + Age.Group + Income 
-                + marriageRate + total_republican 
-                + total_democrat, data = df_joined)
- summary(model)
+    output$predictionModel<-DT::renderDataTable(df_distinct_age[,c("State","Age.Group","TotalPop","death_by_age","casualty_predictions")],options = list(pageLength = 10),
+                                              callback = JS(
+                                                "table.on( 'search.dt', function () {",
+                                                "Shiny.setInputValue( 'search', table.search() );",
+                                                "} );"))
 
     output$citation1 <- renderPrint({
       "“Linear Mixed-Effects Models in Medical Research” by Kwon et al. 

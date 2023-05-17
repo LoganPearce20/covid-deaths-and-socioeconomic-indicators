@@ -10,7 +10,7 @@ df_income <- read.csv("data/df_income.csv")
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
-  theme = shinytheme("darkly"),
+  theme = shinytheme("cyborg"),
     # Application title
     titlePanel("Effects of Socioeconomic Factors on Covid Related Deaths"),
 
@@ -64,11 +64,16 @@ shinyUI(fluidPage(
                        plotOutput('plot13'),
                        plotOutput('plot14'),
                        verbatimTextOutput('plot17')),
+              tabPanel("Covid Deaths by Population",
+                       plotOutput('plot21'),
+                       plotOutput('plot22'),
+                       verbatimTextOutput('plot23')),
+              tabPanel('Prediction Model',
+                       dataTableOutput('predictionModel')),
               tabPanel("BingAi Model Citations",
                        htmlOutput('citation1'),
                        htmlOutput('citation2'),
                        htmlOutput('citation3')),
-              tabPanel("Model Citations"),
               tabPanel("Idea Backlog",
                        htmlOutput("comment8"))
 
