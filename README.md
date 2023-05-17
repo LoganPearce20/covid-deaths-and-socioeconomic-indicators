@@ -20,28 +20,29 @@ In this project we have collected data on the number of deaths due to covid 19 t
         group_by(State) %>%
         mutate(total_deaths = sum(COVID.19.Deaths, na.rm = T))
   2. Find the total proportion of each political party in each State
-    df_voting_tendancy <- df_voting_tendancy %>%
-    select(state, percentage20_Donald_Trump, percentage20_Joe_Biden, total_votes20, votes20_Donald_Trump, 
+        df_voting_tendancy <- df_voting_tendancy %>%
+        select(state, percentage20_Donald_Trump, percentage20_Joe_Biden, total_votes20, votes20_Donald_Trump, 
             votes20_Joe_Biden, TotalPop, Hispanic, White, Black, Asian, Native, Pacific) %>%
-    arrange(state) %>%
-    group_by(state) %>%
-    mutate(total_votes_by_state = sum(total_votes20, na.rm = T)) %>%
-    mutate(total_republican = sum(votes20_Donald_Trump, na.rm = T) / total_votes_by_state) %>%
-    mutate(total_democrat = sum(votes20_Joe_Biden, na.rm = T) / total_votes_by_state) %>%
-    mutate(White = round((White / 100) * TotalPop)) %>%
-    mutate(Black = round((Black / 100) * TotalPop)) %>%
-    mutate(Hispanic = round((Hispanic / 100) * TotalPop)) %>%
-    mutate(Asian = round((Asian / 100) * TotalPop)) %>%
-    mutate(Native = round((Native / 100) * TotalPop)) %>%
-    mutate(Pacific = round((Pacific / 100) * TotalPop)) %>%
-    mutate(TotalPop = sum(TotalPop, na.rm = T)) %>%
-    mutate(White = sum(White, na.rm = T)) %>%
-    mutate(Black = sum(Black, na.rm = T)) %>%
-    mutate(Hispanic = sum(Hispanic, na.rm = T)) %>%
-    mutate(Asian = sum(Asian, na.rm = T)) %>%
-    mutate(Native = sum(Native, na.rm = T)) %>%
-    mutate(Pacific = sum(Pacific, na.rm = T)) %>%
-    distinct(total_republican, total_democrat, White, Black, Hispanic, Asian, Native, Pacific)
+        arrange(state) %>%
+        group_by(state) %>%
+        mutate(total_votes_by_state = sum(total_votes20, na.rm = T)) %>%
+        mutate(total_republican = sum(votes20_Donald_Trump, na.rm = T) / total_votes_by_state) %>%
+        mutate(total_democrat = sum(votes20_Joe_Biden, na.rm = T) / total_votes_by_state) %>%
+        mutate(White = round((White / 100) * TotalPop)) %>%
+        mutate(Black = round((Black / 100) * TotalPop)) %>%
+        mutate(Hispanic = round((Hispanic / 100) * TotalPop)) %>%
+        mutate(Asian = round((Asian / 100) * TotalPop)) %>%
+        mutate(Native = round((Native / 100) * TotalPop)) %>%
+        mutate(Pacific = round((Pacific / 100) * TotalPop)) %>%
+        mutate(TotalPop = sum(TotalPop, na.rm = T)) %>%
+        mutate(White = sum(White, na.rm = T)) %>%
+        mutate(Black = sum(Black, na.rm = T)) %>%
+        mutate(Hispanic = sum(Hispanic, na.rm = T)) %>%
+        mutate(Asian = sum(Asian, na.rm = T)) %>%
+        mutate(Native = sum(Native, na.rm = T)) %>%
+        mutate(Pacific = sum(Pacific, na.rm = T)) %>%
+        distinct(total_republican, total_democrat, White, Black, Hispanic, Asian, Native, Pacific)
+        
   3. Changed the names of variables 
     names(df_marital_status)[names(df_marital_status) == "STATE"] <- "State"
     names(df_marital_status)[names(df_marital_status) == "RATE"] <- "marriageRate"  
