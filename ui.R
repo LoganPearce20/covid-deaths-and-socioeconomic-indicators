@@ -3,6 +3,7 @@ library(ggplot2)
 library(shinythemes)
 library(shinyjs)
 library(viridis)
+library(dplyr)
 
 df_joined <- read.csv("data/df_joined.csv")
 df_income <- read.csv("data/df_income.csv")
@@ -25,18 +26,15 @@ shinyUI(fluidPage(
       selectizeInput("age_group",
                      'Choose an Age Group:',
                      choices = distinct(df_joined, df_joined$Age.Group))),
-       # selectizeInput("Race",
-       #                "Choose a race:",
-       #                choices = distinct(df_joined, df_joined$Race))),
 
-        # Show a plot of the generated distribution
         mainPanel(
           fluidRow(
             # Sidebar with a slider input for number of bins
             tabsetPanel(
               tabPanel("Introduction", 
                        htmlOutput("comment1"),
-                       htmlOutput('comment6')),
+                       htmlOutput('comment6'),
+                       htmlOutput('comment7')),
               tabPanel("Overview of Each States Covid Deaths", 
                        plotOutput("plot2"),
                        plotOutput('plot16'),
@@ -60,7 +58,6 @@ shinyUI(fluidPage(
                        plotOutput('plot10'),
                        plotOutput('plot11'),
                        verbatimTextOutput('plot18')),
-              tabPanel("Covid Deaths by Race"),
               tabPanel("Covid Deaths by Age",
                        htmlOutput("comment4"),
                        plotOutput('plot12'),
