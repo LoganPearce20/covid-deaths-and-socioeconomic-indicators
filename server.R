@@ -203,10 +203,11 @@ shinyServer(function(input, output, session) {
       
       ggplot(df_distinct_democrat, aes(x = State, y = democrat_deaths, fill = State)) +
         geom_col(show.legend = F) +
-        xlab("democrat") +
+        xlab("State") +
         ylab("Deaths") +
-        ggtitle("Covid 19 deaths by vote") + 
-        plot_theme
+        ggtitle("Covid 19 deaths by democratic states") + 
+        plot_theme +
+        coord_flip()
       
     })
     output$plot9 <- renderPlot({
@@ -214,10 +215,11 @@ shinyServer(function(input, output, session) {
       
       ggplot(df_distinct_republican, aes(x = State, y = republican_deaths, fill = State)) +
         geom_col(show.legend = F) +
-        xlab("republican") +
+        xlab("State") +
         ylab("Deaths") +
-        ggtitle("Covid 19 deaths by vote") + 
-        plot_theme
+        ggtitle("Covid 19 deaths by republican states") + 
+        plot_theme +
+        coord_flip()
       
     })
     output$plot10 <- renderPlot({
