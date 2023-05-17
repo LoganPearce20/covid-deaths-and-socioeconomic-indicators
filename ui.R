@@ -64,8 +64,14 @@ shinyUI(fluidPage(
                        plotOutput('plot13'),
                        plotOutput('plot14'),
                        verbatimTextOutput('plot17')),
+              tabPanel("BingAi Model Citations",
+                       htmlOutput('citation1'),
+                       htmlOutput('citation2'),
+                       htmlOutput('citation3')),
               tabPanel("Model Citations"),
-              tabPanel("Idea Backlog")
+              tabPanel("Idea Backlog",
+                       htmlOutput("comment8"))
+
                        
             )
         )

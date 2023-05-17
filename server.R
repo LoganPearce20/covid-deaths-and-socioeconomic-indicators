@@ -312,6 +312,33 @@ shinyServer(function(input, output, session) {
                 + marriageRate + total_republican 
                 + total_democrat, data = df_joined)
  summary(model)
-    }) 
+
+    output$citation1 <- renderPrint({
+      "“Linear Mixed-Effects Models in Medical Research” by Kwon et al. 
+       (2021) 1 discusses the use of linear mixed-effects models (LMMs) in medical research. 
+       The authors provide an overview of LMMs and their use in medical research. 
+       They also provide examples of how LMMs can be used to analyze data from medical research studies.
+       LMMs are an extension of linear regression models that describe the relationship between a response variable and independent variables, with coefficients that can vary with respect to one or more grouping variables. 
+       They are used when there is non-independence in the data, such as arises from a hierarchical structure. 
+       Linear mixed-effects modeling allows a researcher to examine the condition of interest while also taking into account variability within and across participants and items simultaneously. 
+       It also handles missing data and unbalanced designs quite well. Linear mixed models have two components: fixed effects and random effects. 
+       They accommodate separate variance components modeled with a set of random effects."
+    })
+    output$citation2 <- renderText({
+      "Kwon, J. M., Kim, J. H., & Kim, K. (2021). Linear Mixed-Effects Models in Medical Research. Anesthesia & Analgesia, 132(6), 1669-1677. https://doi.org/10.1213/ANE.0000000000005415"
+    })
+    output$citation3 <- renderText({
+        "Pearce, L. J. (2023, May 16). Linear Mixed Effects Models for Medical Data. Bing Chatbot. https://github.com/microsoft/bing-chatbot"
+    })
+
+ #-----------------------Idea Backlog--------------------------------------------------   
+    output$comment8 <- renderText({
+      "1.We planned on creating a leaflet map displaying the covid deaths by zipcode, however we only had lat & lon data 
+      for voting by county and making a map for that could not make sense
+      2. Tried using Race as a socioeconomic factor, however, we did not have data on the ethinicity of the person who died 
+      due to covid.Therefore, we could not use race. 
+      3. "
+    })
+ }) 
 
 
