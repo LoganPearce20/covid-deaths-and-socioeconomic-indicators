@@ -69,11 +69,10 @@ shinyUI(fluidPage(
                        plotOutput('plot22'),
                        verbatimTextOutput('plot23')),
               tabPanel('Prediction Model',
-                       dataTableOutput('predictionModel')),
+                       dataTableOutput('predictionModel'),
+                       htmlOutput('citation2')),
               tabPanel("BingAi Model Citations",
-                       htmlOutput('citation1'),
-                       htmlOutput('citation2'),
-                       htmlOutput('citation3')),
+                       htmlOutput('citation1')),
               tabPanel("Idea Backlog",
                        htmlOutput("comment8"))
 

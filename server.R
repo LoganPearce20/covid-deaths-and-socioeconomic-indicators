@@ -134,9 +134,9 @@ shinyServer(function(input, output, session) {
   output$plot1 <- renderPlot({
     ggplot(df_joined, aes(x = State, y = Income, fill = State)) +
       geom_col(show.legend = F, position = "dodge", stat = "identity") +
-      labs(title = "Income per State",
-           x = "State",
-           y = "Income") +
+      ggtitle('Income per state', "This graph shows you the average income for every state in 2020") +
+      xlab('State') +
+      ylab('Income') +
       plot_theme +
       coord_flip() 
 
@@ -145,7 +145,7 @@ shinyServer(function(input, output, session) {
   output$plot2 <- renderPlot({
     ggplot(df_distinct_deaths, aes(x = State, y = total_deaths, fill = State)) +
       geom_col(show.legend = F, position = "dodge", stat = "identity") +
-      labs(title = "Deaths in Each State") +
+      ggtitle("Deaths in Each State", 'This graph shows the total number of deaths in each state') +
       plot_theme +
       coord_flip()
 
@@ -154,8 +154,7 @@ shinyServer(function(input, output, session) {
     output$plot3 <- renderPlot({
       ggplot(df_filter_condition(), aes(x = State, y = condition_deaths, fill = State)) +
         geom_col(show.legend = F, position = "dodge", stat = "identity") +
-        labs(title = "Deaths in Each State") +
-        ggtitle(paste("Deaths by condition in",input$condition)) +
+        ggtitle(input$condition, 'This reactive graph shows the total number of deaths by condition in each state') +
         plot_theme +
         coord_flip()
     })
@@ -163,7 +162,7 @@ shinyServer(function(input, output, session) {
       ggplot(df_filter_state(), aes(x = Condition, y = condition_deaths, fill = Condition)) +
         geom_col(show.legend = F, position = "dodge", stat = "identity") +
         labs(title = "Deaths in Each State") +
-        ggtitle(paste("Deaths by condition in",input$state)) +
+        ggtitle(input$state,'This graph shows how each condition is affecting each state differently') +
         plot_theme +
         coord_flip()
     })
@@ -172,7 +171,7 @@ shinyServer(function(input, output, session) {
         geom_smooth() +
         xlab("Income") +
         ylab("Deaths") +
-        ggtitle("Covid 19 deaths by Income") + 
+        ggtitle("Covid 19 deaths by Income", "This graph shows the relationship between income and the total number of deaths due to covid-19") + 
         plot_theme
     })
     output$comment2 <- renderText({
@@ -185,7 +184,7 @@ shinyServer(function(input, output, session) {
       
       ggplot(df_filter_condition(),aes(x = Income, y = condition_deaths))+
         geom_smooth() + 
-        ggtitle(input$condition,"Deaths Based on Income") +
+        ggtitle(input$condition,"This graph shows the relationship between income and the reported covid related condition that lead to the persons death") +
         ylab(input$condition) +
         plot_theme
     })
@@ -193,16 +192,15 @@ shinyServer(function(input, output, session) {
     output$plot6 <- renderPlot({
       ggplot(df_distinct_marriages, aes(x = State, y = marriageRate, fill = State)) +
         geom_col(show.legend = F, position = "dodge", stat = "identity") +
-        labs(title = "Marriage Rate in Each State") +
+        ggtitle('Marriage rate in each state', 'This graph shows the marriage rate for every state') +
         plot_theme +
         coord_flip()
     })
     output$plot7 <- renderPlot({
       ggplot(df_distinct_marriages, aes(x = marriageRate, y = marriage_deaths)) +
-        geom_col() +
         geom_smooth() +
         xlab("Marriage Rate") +
-        ggtitle("Deaths by Marriage Rate") +
+        ggtitle("Deaths by Marriage Rate",'This graph shows the relationship between a states marriage rate and covid-19 deaths') +
         plot_theme
     })
     output$plot15 <- renderPlot({
@@ -210,7 +208,7 @@ shinyServer(function(input, output, session) {
       
       ggplot(df_filter_condition3(), aes(x = marriageRate, y = marriage_deaths)) +
         geom_smooth() + 
-        ggtitle(input$condition,"Deaths Based on Marriage Rate") +
+        ggtitle(input$condition,"This reactive graph shows you the relationship between marriage rate and the conditions that lead to covid-19 deaths") +
         ylab(input$condition) +
         plot_theme
     })
@@ -226,7 +224,7 @@ shinyServer(function(input, output, session) {
         geom_col(show.legend = F) +
         xlab("State") +
         ylab("Deaths") +
-        ggtitle("Covid 19 deaths by democratic states") + 
+        ggtitle("Covid 19 deaths by democratic states", 'This graph shows the total number of covid-19 deaths in democratic states') + 
         plot_theme +
         coord_flip()
       
@@ -238,7 +236,7 @@ shinyServer(function(input, output, session) {
         geom_col(show.legend = F) +
         xlab("State") +
         ylab("Deaths") +
-        ggtitle("Covid 19 deaths by republican states") + 
+        ggtitle("Covid 19 deaths by republican states",'This graph shows the total number of covid-19 deaths in republican states') + 
         plot_theme +
         coord_flip()
       
@@ -247,7 +245,7 @@ shinyServer(function(input, output, session) {
       
       ggplot(df_distinct_democrat,aes(x = total_democrat, y = democrat_deaths))+
         geom_smooth(show.legend = F) + 
-        ggtitle("Proportion of Democrats") +
+        ggtitle("Proportion of Democrats",'This graph shows the relationship between covid-19 deaths and how many residents in the state voted democrat') +
         ylab("Deaths") +
         plot_theme
     })   
@@ -255,7 +253,7 @@ shinyServer(function(input, output, session) {
       
       ggplot(df_distinct_republican,aes(x = total_republican, y = republican_deaths))+
         geom_smooth(show.legend = F) + 
-        ggtitle("Proportion of Republican") +
+        ggtitle("Proportion of Republican",'This graph shows the relationship between covid-19 deaths and how many residents in the state voted republican') +
         ylab("Deaths") +
         plot_theme
     })   
@@ -287,21 +285,21 @@ shinyServer(function(input, output, session) {
         geom_col(show.legend = F) +
         xlab("Age") +
         ylab("Deaths") +
-        ggtitle("Covid 19 deaths by age") + 
+        ggtitle("Covid 19 deaths by age", 'This graph shows the total number of covid deaths within each age group') + 
         plot_theme
       
     })
     output$plot13 <- renderPlot({
       ggplot(df_filter_age(),aes(x = State, y = death_by_age, fill = State))+
         geom_col() + 
-        ggtitle("Deaths For",input$age_group) +
+        ggtitle(input$age_group, "This reactive graph shows the number of covid deaths in every state for a selected age group") +
         plot_theme +
         coord_flip()
     }) 
     output$plot14 <- renderPlot({
       ggplot(df_filter_condition2(),aes(x = Age.Group, y = COVID.19.Deaths, fill = Age.Group))+
         geom_col(show.legend = F) + 
-        ggtitle(input$condition,"Deaths in Every State by Age") +
+        ggtitle(input$condition,'This reactive graph shows the number of deaths related to a specific condition for each age group in each state') +
         plot_theme
     }) 
     output$comment4 <- renderText({
@@ -314,14 +312,14 @@ shinyServer(function(input, output, session) {
         geom_col(show.legend = F) +
         xlab("State") +
         ylab("Population") +
-        ggtitle("Total population of each state") + 
+        ggtitle("Total population of each state", 'This graph shows the total population for each state') + 
         plot_theme +
         coord_flip()
     })
     output$plot22 <- renderPlot({
       ggplot(df_distinct_pop,aes(x = TotalPop, y = pop_deaths))+
         geom_smooth(show.legend = F) + 
-        ggtitle("Deaths by Population Density") +
+        ggtitle("Deaths by Population Density",'This graph shows the total number of deaths by population density') +
         ylab("Deaths") +
         plot_theme
     })   
@@ -355,27 +353,16 @@ shinyServer(function(input, output, session) {
                                                 "} );"))
 
     output$citation1 <- renderPrint({
-      "“Linear Mixed-Effects Models in Medical Research” by Kwon et al. 
-       (2021) 1 discusses the use of linear mixed-effects models (LMMs) in medical research. 
-       The authors provide an overview of LMMs and their use in medical research. 
-       They also provide examples of how LMMs can be used to analyze data from medical research studies.
-       LMMs are an extension of linear regression models that describe the relationship between a response variable and independent variables, with coefficients that can vary with respect to one or more grouping variables. 
-       They are used when there is non-independence in the data, such as arises from a hierarchical structure. 
-       Linear mixed-effects modeling allows a researcher to examine the condition of interest while also taking into account variability within and across participants and items simultaneously. 
-       It also handles missing data and unbalanced designs quite well. Linear mixed models have two components: fixed effects and random effects. 
-       They accommodate separate variance components modeled with a set of random effects."
+      "<p>“Linear Mixed-Effects Models in Medical Research” by Kwon et al. (2021) 1 discusses the use of linear mixed-effects models (LMMs) in medical research. The authors provide an overview of LMMs and their use in medical research. They also provide examples of how LMMs can be used to analyze data from medical research studies. LMMs are an extension of linear regression models that describe the relationship between a response variable and independent variables, with coefficients that can vary with respect to one or more grouping variables. They are used when there is non-independence in the data, such as arises from a hierarchical structure. Linear mixed-effects modeling allows a researcher to examine the condition of interest while also taking into account variability within and across participants and items simultaneously. It also handles missing data and unbalanced designs quite well. Linear mixed models have two components: fixed effects and random effects. They accommodate separate variance components modeled with a set of random effects. <br> <p> Kwon, J. M., Kim, J. H., & Kim, K. (2021). Linear Mixed-Effects Models in Medical Research. Anesthesia & Analgesia, 132(6), 1669-1677. https://doi.org/10.1213/ANE.0000000000005415 <br> <p> Pearce, L. J. (2023, May 16). Linear Mixed Effects Models for Medical Data. Bing Chatbot. https://github.com/microsoft/bing-chatbot"
     })
-    output$citation2 <- renderText({
-      "Kwon, J. M., Kim, J. H., & Kim, K. (2021). Linear Mixed-Effects Models in Medical Research. Anesthesia & Analgesia, 132(6), 1669-1677. https://doi.org/10.1213/ANE.0000000000005415"
-    })
-    output$citation3 <- renderText({
-        "Pearce, L. J. (2023, May 16). Linear Mixed Effects Models for Medical Data. Bing Chatbot. https://github.com/microsoft/bing-chatbot"
+    output$citation2 <- renderPrint({
+      "<p>Linear regression is a statistical method that is used to establish a relationship between two variables. In this case, the number of deaths in each state is being predicted based on their age and the population of that state. Linear regression is used because it is a simple and effective way to model the relationship between two variables. The model is based on the assumption that there is a linear relationship between the two variables. The linear mixed-effects model shows that there is a correlation between age and population of a state with someone dying of covid-19. Therefore, linear regression is used to predict the number of deaths in each state based on these variables<sup>[2]</sup>.</p>"
     })
 
  #-----------------------Idea Backlog--------------------------------------------------   
     output$comment8 <- renderText({
       "1.We planned on creating a leaflet map displaying the covid deaths by zipcode, however we only had lat & lon data 
-      for voting by county and making a map for that could not make sense
+      for voting by county and making a map for that could not make sense <br>
       2. Tried using Race as a socioeconomic factor, however, we did not have data on the ethinicity of the person who died 
       due to covid.Therefore, we could not use race. 
       3. "
