@@ -111,24 +111,7 @@ shinyServer(function(input, output, session) {
     subset(df_distinct_marriage_condition, Condition == input$condition) 
   })
   output$comment1 <- renderText({
-    "The project aims to investigate the relationship between the socioeconomic factors of each state 
-    and their impact on COVID-19 related deaths in the year 2020. 
-    The study will gather data on various socioeconomic indicators such as income, mariage rates, race, political alignment, and age in each state. 
-    This data will then be analyzed to identify any correlations between these factors and the number and cause of COVID-19 deaths in each state. 
-    The results of this study could potentially provide valuable insights into the social determinants of health and how they influence the spread and impact of infectious diseases like COVID-19. 
-    Additionally, the findings could inform public health policies aimed at mitigating the impact of such diseases on vulnerable populations in the future."
-  })
-  output$comment6 <- renderText({
-    "The scope of this project is limited to the socioeconomic factors of income, marriage rate, density of republican
-    vs. democratic voters, race, and age and how each one of those interacts with ones liklihood of dying after contracting covid-19."
-  })
-  output$comment7 <- renderText({
-    "The requirements of this project are as follows:
-    1. Covid-19 DATA
-    2. Socio-economic Data
-    3. Data Cleaning and Integration
-    4. Data Analysis and Visualization
-    5. Create a linear mixed affects Model"
+    "<p>The project aims to investigate the relationship between the socioeconomic factors of each state and their impact on COVID-19 related deaths in the year 2020. The study will gather data on various socioeconomic indicators such as income, mariage rates, race, political alignment, and age in each state. This data will then be analyzed to identify any correlations between these factors and the number and cause of COVID-19 deaths in each state. The results of this study could potentially provide valuable insights into the social determinants of health and how they influence the spread and impact of infectious diseases like COVID-19. Additionally, the findings could inform public health policies aimed at mitigating the impact of such diseases on vulnerable populations in the future.<br> <p> The scope of this project is limited to the socioeconomic factors of income, marriage rate, density of republican vs. democratic voters, population density, and age and how each one of those interacts with ones liklihood of dying after contracting covid-19. <br> <p> The requirements of this project are as follows: <br> <p> 1. Covid-19 DATA <br> <p> 2. Socio-economic Data <br> <p> 3. Data Cleaning and Integration <br> <p> 4. Data Analysis and Visualization <br> <p> 5. Create a linear mixed affects Model <br> <p> 6. Create a prediction model"
   })
 #-----------------------covid deaths by income---------------------------------
   output$plot1 <- renderPlot({
@@ -175,7 +158,7 @@ shinyServer(function(input, output, session) {
         plot_theme
     })
     output$comment2 <- renderText({
-      "Based on this data and our model there is no evidence that income is an effective indicator in regards
+      "Based on this data and a t-test of 1.044 from our linear mixed-effects model there is no evidence that income is an effective indicator in regards
       to someones risk of death if they contract covid-19."
     })
     
@@ -213,7 +196,7 @@ shinyServer(function(input, output, session) {
         plot_theme
     })
     output$comment5 <- renderText({
-      "Based on this data and our model there does seem to be a link between a states marriage rate and covid-19 Deaths"
+      "Based on this data and a t-test value of -1.529 there does not seem to be a strong link between a states marriage rate and covid-19 deaths"
     })
 
     #------------------ covid deaths by political Affiliation ----------------------------
@@ -259,7 +242,7 @@ shinyServer(function(input, output, session) {
     })   
     
     output$comment3 <- renderText({
-      "Based on this data and our models there is no evidence that ones political affiliation plays any role
+      "Based on this data and a t-test value of -.866 from our linear mixed-effects model there is no evidence that ones political affiliation plays any role
       into how likely they are to die from COVID-19."
     })
     
@@ -303,7 +286,7 @@ shinyServer(function(input, output, session) {
         plot_theme
     }) 
     output$comment4 <- renderText({
-      "Based on this data and our model there is evidence that age is only an effective indicator of 
+      "Based on this data and a t-test value of 5.081 from our linear mixed-effects model there is evidence that age is only an effective indicator of 
       death for someone suffering from Covid-19 if they are over the age of 55."
     })
     #----------------------------------- deaths by population ------------------------------
@@ -323,6 +306,9 @@ shinyServer(function(input, output, session) {
         ylab("Deaths") +
         plot_theme
     })   
+    output$comment6 <- renderText({
+      "Based on our graphs and a t-test value of 21.733 found with our linear mixed-effects model there is a connection between a states population density and the observed number of covid-19 related deaths"
+    })
     #----------------------------------- models ------------------------------
     hierarchical_model_age <- lmer( COVID.19.Deaths ~ Age.Group + (1|State), data = df_distinct_age_condition)
     hierarchical_model_republican <- lmer( COVID.19.Deaths ~ total_republican + (1|State), data = df_joined)
@@ -351,6 +337,10 @@ shinyServer(function(input, output, session) {
                                                 "table.on( 'search.dt', function () {",
                                                 "Shiny.setInputValue( 'search', table.search() );",
                                                 "} );"))
+    
+    output$comment7 <- renderText({
+      "This model uses both the population density of the state and Age to help predict the number of casualties that will occur from covid-19.  We only use population density and age as our predictors as they were the only socioeconomic factors found to be statistically significant by our linear mixed-effects model. As we can see before the age of 55 our predictions are not accurate, which is exactly what we expect.  After the age of 55 our predictions are much more accurate and can be used to help allocate resources to better handle any covid-19, or similar, outbreaks in the future."
+    })
 
     output$citation1 <- renderPrint({
       "<p>“Linear Mixed-Effects Models in Medical Research” by Kwon et al. (2021) 1 discusses the use of linear mixed-effects models (LMMs) in medical research. The authors provide an overview of LMMs and their use in medical research. They also provide examples of how LMMs can be used to analyze data from medical research studies. LMMs are an extension of linear regression models that describe the relationship between a response variable and independent variables, with coefficients that can vary with respect to one or more grouping variables. They are used when there is non-independence in the data, such as arises from a hierarchical structure. Linear mixed-effects modeling allows a researcher to examine the condition of interest while also taking into account variability within and across participants and items simultaneously. It also handles missing data and unbalanced designs quite well. Linear mixed models have two components: fixed effects and random effects. They accommodate separate variance components modeled with a set of random effects. <br> <p> Kwon, J. M., Kim, J. H., & Kim, K. (2021). Linear Mixed-Effects Models in Medical Research. Anesthesia & Analgesia, 132(6), 1669-1677. https://doi.org/10.1213/ANE.0000000000005415 <br> <p> Pearce, L. J. (2023, May 16). Linear Mixed Effects Models for Medical Data. Bing Chatbot. https://github.com/microsoft/bing-chatbot"
@@ -364,8 +354,7 @@ shinyServer(function(input, output, session) {
       "1.We planned on creating a leaflet map displaying the covid deaths by zipcode, however we only had lat & lon data 
       for voting by county and making a map for that could not make sense <br>
       2. Tried using Race as a socioeconomic factor, however, we did not have data on the ethinicity of the person who died 
-      due to covid.Therefore, we could not use race. 
-      3. "
+      due to covid.Therefore, we could not use race."
     })
  }) 
 
