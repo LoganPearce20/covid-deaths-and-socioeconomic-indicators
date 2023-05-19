@@ -1,0 +1,14 @@
+name: covid-deaths-and-socioeconomic-indicators
+title: covid-deaths-and-socioeconomic-indicators
+username:
+account: loganpearce20
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 9140339
+bundleId: 7235817
+url: https://loganpearce20.shinyapps.io/covid-deaths-and-socioeconomic-indicators/
+when: 1684448485.8136
+lastSyncTime: 1684448485.81361
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: covidQuery.R|README.md
